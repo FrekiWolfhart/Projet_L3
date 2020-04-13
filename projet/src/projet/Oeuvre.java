@@ -6,18 +6,27 @@ package projet;
 import java.sql.Date;
 import java.util.Collection;
 
-public class Oeuvre {
-	private String cote;
-	private Collection<String> auteurs;
-	private String titre;
-	private Date dateDeParution;
-	private Collection<String> tags;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 
-	public Oeuvre(String cote, Collection<String> auteurs, String titre, Date dateDeParution, Collection<String> tags) {
-		this.cote = cote;
-		this.auteurs = auteurs;
-		this.titre = titre;
-		this.dateDeParution = dateDeParution;
-		this.tags = tags;
-	}
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of = { "cote" })
+@AllArgsConstructor
+@Getter
+public class Oeuvre {
+
+	String cote;
+
+	Collection<String> auteurs;
+
+	String titre;
+
+	Date dateParution;
+
+	Collection<String> tags;
+	
+	Collection<Exemplaire> exemplaires;
 }
