@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class ServicesDivers {
+public class ServicesFormatageDate {
 
 	DateTimeFormatter dateFormatter;
 
@@ -15,7 +15,7 @@ public class ServicesDivers {
 	
 	DateTimeFormatter dateHeureFormatter;
 
-	public ServicesDivers() {
+	public ServicesFormatageDate() {
 		String date = "dd MMMM yyyy";
 		String heure = "HH'h'mm";
 		dateFormatter = DateTimeFormatter.ofPattern(date);

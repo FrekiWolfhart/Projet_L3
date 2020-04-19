@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
-import controleur.ServicesDivers;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -39,8 +38,6 @@ public class Pret {
 	 */
 	Temporal dateRendu;
 
-	ServicesDivers services;
-
 	public boolean aEteRendu() {
 		return dateRendu != null;
 	}
@@ -49,7 +46,6 @@ public class Pret {
 		setDateRendu(LocalDateTime.now());
 	}
 
-	
 	// TODO : faire une injection pour bien formater les dates
 	@Override
 	public String toString() {
