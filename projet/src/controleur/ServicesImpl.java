@@ -56,46 +56,87 @@ public class ServicesImpl implements Services {
 	}
 
 	@Override
-	public boolean prolonger(Pret pret) {
-		pret.getExemplaire().getOeuvre().getReservations();
+	public Pret emprunter(int idAdherent, String coteOeuvre, int numeroExemplaire) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pret emprunter(int idAdherent, String coteOeuvre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, String dateEmprunt) {
+		// TODO Auto-generated method stub
 		return false;
-		// TODO
+	}
+
+	@Override
+	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, Temporal dateEmprunt) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean prolonger(Pret pret) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void reserver(int idAdherent, String coteOeuvre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void reserver(Adherent adherent, Oeuvre oeuvre) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void envoyerEmailRetardataires() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void envoyerEmailRetardataire(Adherent adherent) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void envoyerEmail(Adherent adherent, String contenu) {
 		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void payerCotisation(int idAdherent) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void payerCotisation(Adherent adherent) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void rendreLivre(Pret pret) {
 		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public Exemplaire ajouterExemplaire(String coteOeuvre) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -105,9 +146,20 @@ public class ServicesImpl implements Services {
 	}
 
 	@Override
-	public Oeuvre ajouterLivre(Auteur auteur, String titre, Temporal dateSortie) {
+	public Oeuvre ajouterLivre(String auteur, String titre, String dateSortie) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public Oeuvre ajouterLivre(String auteur, String titre, Temporal dateSortie) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Oeuvre ajouterLivre(Auteur auteur, String titre, Temporal dateSortie) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
