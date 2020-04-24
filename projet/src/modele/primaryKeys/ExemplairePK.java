@@ -1,6 +1,8 @@
-package modele;
+package modele.primaryKeys;
 
-import java.util.Collection;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import modele.Oeuvre;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +20,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "nom")
-public class Auteur {
-	String nom;
-	Collection<Oeuvre> oeuvres;
+@EqualsAndHashCode
 
-	@Override
-	public String toString() {
-		return getNom();
-	}
+@Embeddable
+public class ExemplairePK implements Serializable {
+	Oeuvre oeuvre;
+	int numero;
 }

@@ -2,17 +2,23 @@ package controleur;
 
 import java.time.temporal.Temporal;
 
-import modele.*;
+import modele.Adherent;
+import modele.Auteur;
+import modele.Exemplaire;
+import modele.Oeuvre;
+import modele.Pret;
 
 public interface Services {
+	
+	// TODO : faire en ne prenant que ID en argument
 
-	public Adherent ajouterAdherent(int numero, String nom, String email);
+	public Adherent ajouterAdherent(String nom, String email);
 
 	public Pret emprunter(Adherent adherent, Exemplaire exemplaire);
 
 	public Pret emprunter(Adherent adherent, Oeuvre oeuvre);
 
-	public void prolonger(Pret pret);
+	public boolean prolonger(Pret pret);
 
 	public void reserver(Adherent adherent, Oeuvre oeuvre);
 

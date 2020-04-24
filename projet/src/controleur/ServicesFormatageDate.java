@@ -5,17 +5,19 @@ import java.time.temporal.TemporalAccessor;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.UtilityClass;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@UtilityClass
 public class ServicesFormatageDate {
 
 	DateTimeFormatter dateFormatter;
 
 	DateTimeFormatter heureFormatter;
-	
+
 	DateTimeFormatter dateHeureFormatter;
 
-	public ServicesFormatageDate() {
+	static {
 		String date = "dd MMMM yyyy";
 		String heure = "HH'h'mm";
 		dateFormatter = DateTimeFormatter.ofPattern(date);
@@ -36,14 +38,15 @@ public class ServicesFormatageDate {
 	public String toStringHeure(TemporalAccessor heure) {
 		return toString(heureFormatter, heure);
 	}
+
 	/**
 	 * exemple : 17 avril 2020 à 11h21
 	 */
 	public String toStringdateHeure(TemporalAccessor date) {
 		return toString(dateHeureFormatter, date);
 	}
-	
-	private static String toString(DateTimeFormatter formatteur, TemporalAccessor date) {
+
+	private String toString(DateTimeFormatter formatteur, TemporalAccessor date) {
 		return date == null ? null : formatteur.format(date);
 	}
 }

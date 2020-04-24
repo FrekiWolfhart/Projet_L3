@@ -1,9 +1,9 @@
-package modele;
+package modele.primaryKeys;
 
+import java.io.Serializable;
 import java.time.temporal.Temporal;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,24 +12,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
-import modele.primaryKeys.ReservationPK;
+import modele.Adherent;
+import modele.Exemplaire;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(chain = true)
-@EqualsAndHashCode(of = "id")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 
-@Entity
-public class Reservation {
+@Embeddable
+public class PretPK implements Serializable {
+	Exemplaire exemplaire;
 
-	@EmbeddedId
-	@Delegate
-	ReservationPK id;
+	Adherent adherent;
 
-	Temporal date;
+	Temporal dateEmprunt;
 }

@@ -1,6 +1,6 @@
-package modele;
+package modele.primaryKeys;
 
-import java.util.Collection;
+import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import modele.Adherent;
+import modele.Oeuvre;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +19,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "nom")
-public class Auteur {
-	String nom;
-	Collection<Oeuvre> oeuvres;
+@EqualsAndHashCode
 
-	@Override
-	public String toString() {
-		return getNom();
-	}
+@Embeddable
+public class ReservationPK {
+	Adherent adherent;
+	Oeuvre oeuvre;
 }

@@ -2,6 +2,10 @@ package modele;
 
 import java.time.temporal.Temporal;
 import java.util.Collection;
+import java.util.HashSet;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,7 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
+import modele.primaryKeys.ExemplairePK;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,12 +24,13 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = { "oeuvre", "numero" })
+@EqualsAndHashCode(of = "id")
+@Entity
 public class Exemplaire {
 
-	Oeuvre oeuvre;
-
-	int numero;
+	@EmbeddedId
+	@Delegate
+	ExemplairePK id;
 
 	Temporal dateAchat;
 
@@ -35,16 +42,27 @@ public class Exemplaire {
 	/**
 	 * contient également le pretactuel
 	 */
-	Collection<Pret> historique;
+	Collection<Pret> historiquePrets;
 
 	public boolean estPreté() {
-		return pretActuel != null;
+		return !estLibre();
+	}
+
+	public boolean estLibre() {
+		return pretActuel == null;
+	}
+
+	public void ajouterhistorique(Pret pret) {
+		if (getHistoriquePrets() == null) {
+			setHistoriquePrets(new HashSet<>());
+		}
+		historiquePrets.add(pret);
 	}
 
 	public Adherent getEmprunteurActuel() {
 		return getPretActuel() == null ? null : getPretActuel().getAdherent();
 	}
-	
+
 	public String toString() {
 		return getOeuvre() + " n°" + getNumero();
 	};

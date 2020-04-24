@@ -2,15 +2,20 @@ package modele;
 
 import java.time.temporal.Temporal;
 import java.util.Collection;
+import java.util.stream.Stream;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import controleur.StreamOfNullable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,18 +24,12 @@ import lombok.AllArgsConstructor;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "cote")
+@Entity
 public class Oeuvre {
 
-	/**
-	 * cré primaire
-	 */
+	@Id
 	String cote;
-	
-	// TODO : peut-être rajouter un attribut nbExemplaires (en java et en BDD)
 
-	/**
-	 * une autre table contiendra un auteur et une cote Hibernate se chargera ensuite d'allimenter cet attribut
-	 */
 	Collection<Auteur> auteurs;
 
 	String titre;
@@ -42,6 +41,41 @@ public class Oeuvre {
 	Collection<Exemplaire> exemplaires;
 
 	Collection<Reservation> reservations;
+
+	/**
+	 * @return un exemplaire qui n'est pas prété (ou null)
+	 */
+	public Exemplaire getExemplaireLibre() {
+		return getExemplairesLibres().findAny().orElse(null);
+	}
+
+	public Stream<Exemplaire> getExemplairesLibres() {
+		return getExemplairesStream().filter(Exemplaire::estLibre);
+	}
+
+	public Stream<Exemplaire> getExemplairesPretes() {
+		return getExemplairesStream().filter(Exemplaire::estPreté);
+	}
+
+	public Stream<Exemplaire> getExemplairesStream() {
+		return StreamOfNullable.stream(getExemplaires());
+	}
+
+	public Stream<Reservation> getReservationStream() {
+		return StreamOfNullable.stream(getReservations());
+	}
+
+	public Stream<Pret> getPrets() {
+		return getExemplairesStream().map(Exemplaire::getHistoriquePrets).flatMap(StreamOfNullable::stream);
+	}
+
+	public long getNbExemplairesPretes() {
+		return getExemplairesPretes().count();
+	}
+
+	public long getNbExemplairesLibres() {
+		return getExemplairesLibres().count();
+	}
 
 	@Override
 	public String toString() {
