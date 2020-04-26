@@ -9,7 +9,9 @@ import modele.Oeuvre;
 import modele.Pret;
 
 public interface Services {
-
+	
+	public PersistanceServiceLecture getPersistance();
+	
 	public Adherent ajouterAdherent(String nom, String email);
 
 	public Pret emprunter(int idAdherent, String coteOeuvre, int numeroExemplaire);

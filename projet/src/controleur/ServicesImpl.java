@@ -5,6 +5,7 @@ import java.time.temporal.Temporal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.Getter;
 import modele.Adherent;
 import modele.Auteur;
 import modele.Exemplaire;
@@ -13,8 +14,9 @@ import modele.Pret;
 
 public class ServicesImpl implements Services {
 
+	@Getter
 	@Autowired
-	private HibernateService hibernate;
+	private PersistanceServiceEcriture persistance;
 
 	@Autowired
 	private DureePretService dureePretService;
@@ -23,7 +25,7 @@ public class ServicesImpl implements Services {
 	public Adherent ajouterAdherent(String nom, String email) {
 		Adherent adherent = new Adherent().setNom(nom).setEmail(email);
 
-		hibernate.enregistrer(adherent);
+		persistance.enregistrer(adherent);
 
 		return adherent;
 	}
@@ -35,7 +37,7 @@ public class ServicesImpl implements Services {
 		}
 		Pret pret = new Pret(adherent, exemplaire, LocalDateTime.now(), dureePretService.getDuree());
 
-		hibernate.enregistrer(pret);
+		persistance.enregistrer(pret);
 
 		adherent.ajouterPretEnCours(pret);
 		exemplaire.ajouterhistorique(pret);
