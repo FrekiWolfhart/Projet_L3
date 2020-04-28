@@ -36,11 +36,12 @@ public class Oeuvre {
 
 	Temporal dateParution;
 
-	Collection<String> tags;
+	Collection<Tag> tags;
 
 	Collection<Exemplaire> exemplaires;
 
 	Collection<Reservation> reservations;
+	
 
 	/**
 	 * @return un exemplaire qui n'est pas prété (ou null)
