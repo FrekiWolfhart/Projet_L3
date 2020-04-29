@@ -2,7 +2,6 @@ package modele;
 
 import java.time.temporal.Temporal;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -50,13 +49,6 @@ public class Exemplaire {
 
 	public boolean estLibre() {
 		return pretActuel == null;
-	}
-
-	public void ajouterhistorique(Pret pret) {
-		if (getHistoriquePrets() == null) {
-			setHistoriquePrets(new HashSet<>());
-		}
-		historiquePrets.add(pret);
 	}
 
 	public Adherent getEmprunteurActuel() {

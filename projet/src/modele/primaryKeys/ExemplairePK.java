@@ -25,5 +25,5 @@ import modele.Oeuvre;
 @Embeddable
 public class ExemplairePK implements Serializable {
 	Oeuvre oeuvre;
-	int numero;
+	Integer numero;
 }

@@ -16,6 +16,8 @@ public interface PersistanceServiceLecture {
 	public Collection<Auteur> getAuteurs();
 
 	public Collection<Exemplaire> getExemplaires();
+	
+	public Exemplaire getExemplaire(String cote, int numero);
 
 	public Collection<Oeuvre> getOeuvres();
 

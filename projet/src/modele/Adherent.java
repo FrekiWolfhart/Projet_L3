@@ -2,7 +2,6 @@ package modele;
 
 import java.time.temporal.Temporal;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +29,7 @@ import lombok.experimental.FieldDefaults;
 public class Adherent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	int numero;
+	Integer numero;
 
 	String nom;
 
@@ -45,18 +44,6 @@ public class Adherent {
 	Collection<Pret> pretsTerminés;
 
 	Collection<Reservation> reservations;
-
-	// TODO : voir si c'est à moi de faire ça, ou si Hibernate est assez grand pour le faire tout seul 
-	public void ajouterPretEnCours(Pret pret) {
-		if (getPretsEnCours() == null) {
-			setPretsEnCours(new HashSet<>());
-		}
-		getPretsEnCours().add(pret);
-	}
-
-	public void terminerPret(Pret pret) {
-
-	}
 
 	@Override
 	public String toString() {
