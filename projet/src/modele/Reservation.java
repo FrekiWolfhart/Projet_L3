@@ -1,6 +1,6 @@
 package modele;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDateTime;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -31,5 +31,5 @@ public class Reservation {
 	@Delegate
 	ReservationPK id;
 
-	Temporal date;
+	LocalDateTime date;
 }

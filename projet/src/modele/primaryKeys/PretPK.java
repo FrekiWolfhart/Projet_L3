@@ -1,7 +1,7 @@
 package modele.primaryKeys;
 
 import java.io.Serializable;
-import java.time.temporal.Temporal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
 
@@ -31,5 +31,5 @@ public class PretPK implements Serializable {
 
 	Adherent adherent;
 
-	Temporal dateEmprunt;
+	LocalDateTime dateEmprunt;
 }

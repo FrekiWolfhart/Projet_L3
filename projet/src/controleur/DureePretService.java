@@ -1,7 +1,7 @@
 package controleur;
 
-import java.time.Duration;
+import java.time.Period;
 
 public interface DureePretService {
-	public Duration getDuree();
+	public Period getDuree();
 }

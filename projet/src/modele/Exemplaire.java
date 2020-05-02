@@ -1,6 +1,6 @@
 package modele;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.persistence.EmbeddedId;
@@ -31,7 +31,7 @@ public class Exemplaire {
 	@Delegate
 	ExemplairePK id;
 
-	Temporal dateAchat;
+	LocalDateTime dateAchat;
 
 	/**
 	 * null si le livre est libre d'être emprunté

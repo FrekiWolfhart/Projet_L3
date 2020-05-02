@@ -1,9 +1,8 @@
 package controleur.implementation;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
+import controleur.DateService;
 import controleur.DureeCotisationService;
 import controleur.DureePretService;
 import controleur.NouvelEmpruntService;
@@ -34,7 +33,7 @@ public class NouvelEmpruntServiceImplement implements NouvelEmpruntService {
 			// TODO
 		}
 		
-		Pret pret = new Pret(adherent, exemplaire, LocalDateTime.now(), dureePretService.getDuree());
+		Pret pret = new Pret(adherent, exemplaire, DateService.getDateTime(), dureePretService.getDuree());
 
 		persistance.enregistrer(pret);
 

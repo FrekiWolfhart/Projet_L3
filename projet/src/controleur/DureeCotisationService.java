@@ -1,11 +1,13 @@
 package controleur;
 
-import java.time.Duration;
+import java.time.Period;
 
 import modele.Adherent;
 
 public interface DureeCotisationService {
-	public Duration getDureeCotisation();
+	public Period getDureeCotisation();
 
 	public boolean estCotisationAJour(Adherent adherent);
+	
+	public boolean estCotisationAJour(int adherent);
 }

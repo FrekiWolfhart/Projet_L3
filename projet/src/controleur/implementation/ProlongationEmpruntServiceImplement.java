@@ -1,6 +1,6 @@
 package controleur.implementation;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDateTime;
 
 import controleur.ProlongationEmpruntService;
 import modele.Pret;
@@ -14,7 +14,7 @@ public class ProlongationEmpruntServiceImplement implements ProlongationEmpruntS
 	}
 
 	@Override
-	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, Temporal dateEmprunt) {
+	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, LocalDateTime dateEmprunt) {
 		// TODO Auto-generated method stub
 		return false;
 	}

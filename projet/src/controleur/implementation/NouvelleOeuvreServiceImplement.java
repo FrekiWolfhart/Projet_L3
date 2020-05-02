@@ -1,6 +1,6 @@
 package controleur.implementation;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDate;
 
 import controleur.NouvelleOeuvreService;
 import modele.Auteur;
@@ -15,13 +15,13 @@ public class NouvelleOeuvreServiceImplement implements NouvelleOeuvreService {
 	}
 
 	@Override
-	public Oeuvre ajouterOeuvre(String auteur, String titre, Temporal dateSortie) {
+	public Oeuvre ajouterOeuvre(String auteur, String titre, LocalDate dateSortie) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Oeuvre ajouterOeuvre(Auteur auteur, String titre, Temporal dateSortie) {
+	public Oeuvre ajouterOeuvre(Auteur auteur, String titre, LocalDate dateSortie) {
 		// TODO Auto-generated method stub
 		return null;
 	}

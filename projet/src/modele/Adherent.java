@@ -1,6 +1,6 @@
 package modele;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -35,9 +35,9 @@ public class Adherent {
 
 	String email;
 
-	Temporal dateAdhesion;
+	LocalDateTime dateAdhesion;
 
-	Temporal datePaiement;
+	LocalDateTime datePaiement;
 
 	Collection<Pret> pretsEnCours;
 

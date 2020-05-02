@@ -1,12 +1,10 @@
 package modele;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.Temporal;
+import java.time.Period;
 
 import javax.persistence.EmbeddedId;
 
-import controleur.ServicesFormatageDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,27 +32,23 @@ public class Pret {
 	/**
 	 * la date théorique de fin de pret (sera une durée sous forme d'Interval en SQL)
 	 */
-	Duration duréeThéorique;
+	Period duréeThéorique;
 
 	/**
 	 * date effective du rendu du pret
 	 */
-	Temporal dateRendu;
+	LocalDateTime dateRendu;
 
 	public boolean aEteRendu() {
 		return dateRendu != null;
 	}
-	
-	public Pret(Adherent adherent, Exemplaire exemplaire, Temporal dateEmprunt, Duration duréeThéorique) {
-		this(new PretPK(exemplaire, adherent, dateEmprunt), duréeThéorique, dateEmprunt);
-	}
 
-	public void setDateRendu() {
-		setDateRendu(LocalDateTime.now());
+	public Pret(Adherent adherent, Exemplaire exemplaire, LocalDateTime dateEmprunt, Period duréeThéorique) {
+		this(new PretPK(exemplaire, adherent, dateEmprunt), duréeThéorique, dateEmprunt);
 	}
 
 	@Override
 	public String toString() {
-		return "le livre " + getExemplaire() + " prete le " + ServicesFormatageDate.toStringdateHeure(getDateEmprunt()) + " à " + getAdherent();
+		return "le livre " + getExemplaire() + " prete le " + getDateEmprunt() + " à " + getAdherent();
 	}
 }

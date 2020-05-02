@@ -1,6 +1,6 @@
 package modele;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -34,7 +34,7 @@ public class Oeuvre {
 
 	String titre;
 
-	Temporal dateParution;
+	LocalDate dateParution;
 
 	Collection<Tag> tags;
 
