@@ -1,26 +1,29 @@
 package controleur.implementation;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import controleur.DureeCotisationService;
+import controleur.DureePretService;
 import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
+import modele.Pret;
 
 public class EmailServiceImplement implements EmailService {
 
 	@Autowired
 	private PersistanceServiceLecture persistance;
 	@Autowired
-	private DureeCotisationService dureeCotisation;
+	private DureePretService dureePret;
 
 	@Override
 	public void envoyerEmailRetardataires() {
-		persistance.getAdherents().stream().filter(adherent -> !dureeCotisation.estCotisationAJour(adherent)).forEach(this::envoyerEmailRetardataire);
+		// TODO
 	}
 
 	@Override
-	public void envoyerEmailRetardataire(Adherent adherent) {
+	public void envoyerEmailRetardataire(Adherent adherent, Collection<Pret> pretsEnRetard) {
 		// TODO Auto-generated method stub
 
 	}
