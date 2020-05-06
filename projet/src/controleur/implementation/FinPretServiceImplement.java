@@ -1,23 +1,41 @@
 package controleur.implementation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import controleur.DateService;
 import controleur.FinPretService;
+import controleur.PersistanceServiceEcriture;
 import modele.Exemplaire;
 import modele.Pret;
 
 public class FinPretServiceImplement implements FinPretService {
 
+	@Autowired
+	private PersistanceServiceEcriture persistance;
+
 	@Override
-	public void rendreLivre(Pret pret) {
-		// TODO Auto-generated method stub
+	public void rendreLivre(String oeuvre, int numeroExemplaire) {
+		Exemplaire exemplaire = persistance.getExemplaire(oeuvre, numeroExemplaire);
+
+		if (exemplaire == null) {
+			// TODO
+		}
+
+		rendreLivre(exemplaire);
 	}
 
 	@Override
 	public void rendreLivre(Exemplaire exemplaire) {
-		// TODO Auto-generated method stub
+		Pret pret = exemplaire.getPretActuel();
+		if (pret == null) {
+			// TODO
+		}
+		rendreLivre(pret);
 	}
 
 	@Override
-	public void rendreLivre(String oeuvre, int exemplaire) {
-		// TODO Auto-generated method stub
+	public void rendreLivre(Pret pret) {
+		pret.setDateRendu(DateService.getDateTime());
+		persistance.mettreAJour(pret);
 	}
 }
