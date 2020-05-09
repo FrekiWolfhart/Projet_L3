@@ -15,4 +15,12 @@ public class DateService {
 	public LocalDateTime getDateTime() {
 		return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 	}
+
+	public LocalDate getDate(String date) {
+		return LocalDate.parse(date);
+	}
+
+	public LocalDateTime getDateTime(String date) {
+		return LocalDateTime.parse(date);
+	}
 }

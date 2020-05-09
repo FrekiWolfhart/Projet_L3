@@ -41,7 +41,6 @@ public class Oeuvre {
 	Collection<Exemplaire> exemplaires;
 
 	Collection<Reservation> reservations;
-	
 
 	/**
 	 * @return un exemplaire qui n'est pas prété (ou null)

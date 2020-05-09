@@ -8,6 +8,7 @@ import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
+import modele.Tag;
 
 public interface PersistanceServiceLecture {
 
@@ -34,4 +35,8 @@ public interface PersistanceServiceLecture {
 	public Oeuvre getOeuvre(String cote);
 
 	public Collection<Oeuvre> getOeuvres(String titre);
+	
+	public Collection<Tag> getTags();
+	
+	public Tag getTag(String tag);
 }
