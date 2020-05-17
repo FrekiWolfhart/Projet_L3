@@ -31,5 +31,7 @@ public class Reservation {
 	@Delegate
 	ReservationPK id;
 
-	LocalDateTime date;
+	LocalDateTime dateReservation;
+	
+	LocalDateTime dateProposition;
 }
