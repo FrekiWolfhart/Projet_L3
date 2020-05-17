@@ -32,6 +32,8 @@ public class Adherent {
 	Integer numero;
 
 	String nom;
+	
+	String prenom;
 
 	String email;
 

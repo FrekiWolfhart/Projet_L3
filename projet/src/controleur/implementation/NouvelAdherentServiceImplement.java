@@ -12,8 +12,8 @@ public class NouvelAdherentServiceImplement implements NouvelAdherentService {
 	private PersistanceServiceEcriture persistance;
 	
 	@Override
-	public Adherent ajouterAdherent(String nom, String email) {
-		Adherent adherent = new Adherent().setNom(nom).setEmail(email);
+	public Adherent ajouterAdherent(String nom, String prenom, String email) {
+		Adherent adherent = new Adherent().setNom(nom).setPrenom(prenom).setEmail(email);
 		persistance.enregistrer(adherent);
 		return adherent;
 	}
