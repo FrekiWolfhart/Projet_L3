@@ -1,13 +1,14 @@
 package controleur;
 
-import java.time.LocalDateTime;
-
+import modele.Exemplaire;
 import modele.Pret;
 
 public interface ProlongationEmpruntService {
-	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, String dateEmprunt);
+	public boolean prolonger(String coteOeuvre, int numeroExemplaire);
 
-	public boolean prolonger(String coteOeuvre, int numeroExemplaire, int idEmprunteur, LocalDateTime dateEmprunt);
+	public boolean prolonger(Exemplaire exemplaire);
+	
+	public boolean prolonger(int numeroPret);
 
 	public boolean prolonger(Pret pret);
 }

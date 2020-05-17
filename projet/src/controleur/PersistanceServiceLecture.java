@@ -23,6 +23,8 @@ public interface PersistanceServiceLecture {
 	public Collection<Oeuvre> getOeuvres();
 
 	public Collection<Pret> getPrets();
+	
+	public Pret getPret(int numero);
 
 	public Collection<Reservation> getReservations();
 

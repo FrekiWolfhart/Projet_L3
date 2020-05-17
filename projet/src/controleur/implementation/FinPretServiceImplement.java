@@ -34,6 +34,17 @@ public class FinPretServiceImplement implements FinPretService {
 	}
 
 	@Override
+	public void rendreLivre(int numeroPret) {
+		Pret pret = persistance.getPret(numeroPret);
+
+		if (pret == null) {
+			// TODO
+		}
+
+		rendreLivre(pret);
+	}
+
+	@Override
 	public void rendreLivre(Pret pret) {
 		pret.setDateRendu(DateService.getDateTime());
 		persistance.mettreAJour(pret);

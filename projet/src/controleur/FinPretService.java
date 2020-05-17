@@ -4,6 +4,8 @@ import modele.Exemplaire;
 import modele.Pret;
 
 public interface FinPretService {
+	
+	public void rendreLivre(int numeroPret);
 
 	public void rendreLivre(Pret pret);
 

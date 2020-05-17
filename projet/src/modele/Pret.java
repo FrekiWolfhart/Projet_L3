@@ -3,7 +3,8 @@ package modele;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,9 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
-import modele.primaryKeys.PretPK;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,12 +21,17 @@ import modele.primaryKeys.PretPK;
 @Getter
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "numero")
 public class Pret {
 
-	@EmbeddedId
-	@Delegate
-	PretPK id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	Integer numero;
+	
+	Exemplaire exemplaire;
+
+	Adherent adherent;
+
+	LocalDateTime dateEmprunt;
 
 	/**
 	 * la date théorique de fin de pret (sera une durée sous forme d'Interval en SQL)
@@ -44,7 +48,7 @@ public class Pret {
 	}
 
 	public Pret(Adherent adherent, Exemplaire exemplaire, LocalDateTime dateEmprunt, Period duréeThéorique) {
-		this(new PretPK(exemplaire, adherent, dateEmprunt), duréeThéorique, dateEmprunt);
+		this(null, exemplaire, adherent, dateEmprunt, duréeThéorique, dateEmprunt);
 	}
 
 	@Override
