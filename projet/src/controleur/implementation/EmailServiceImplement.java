@@ -1,13 +1,11 @@
 package controleur.implementation;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -21,6 +19,8 @@ import modele.Pret;
 
 public class EmailServiceImplement implements EmailService {
 
+
+
 	@Autowired
 	private PersistanceServiceLecture persistance;
 	@Autowired
@@ -31,6 +31,9 @@ public class EmailServiceImplement implements EmailService {
 		// TODO
 	}
 
+	final String username = "biblio.amu.luminy@gmail.com";
+	final String password = "univluminy";
+
 	@Override
 	public void envoyerEmailRetardataire(Adherent adherent, Collection<Pret> pretsEnRetard) {
 		if (pretsEnRetard != null) {
@@ -38,7 +41,7 @@ public class EmailServiceImplement implements EmailService {
 					+ "\n Nous vous envoyer ce mail car il se trouve que vous avez oublié de nous retourner certains livres empruntés à notre bibliothèque."
 					+ "\n Pour rappel, la duréee d'emprunt est de un mois. Voici la liste des livres concernés :";
 			for (Pret pret : pretsEnRetard) {
-				email += "\n - " + pret.getExemplaire();
+				email += "\n - " + pret.getExemplaire().getOeuvre();
 			}
 			email += "\n Merci de retourner au plus vite ces livres" + "\n Cordialement" + "\n Bibliothèque de l'université Aix-Marseille";
 			envoyerEmail(adherent, email);
@@ -49,35 +52,39 @@ public class EmailServiceImplement implements EmailService {
 	@Override
 	public void envoyerEmail(Adherent adherent, String contenu) {
 		Properties properties = new Properties();
-		properties.setProperty("mail.transport.protocol", "smtp");
-		properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-		properties.setProperty("mail.smtp.port", "456");
-		properties.setProperty("mail.smtp.starttls.enable", "true");
-		Session session = Session.getInstance(properties);
+		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		properties.put("mail.smtp.auth", "true");
+
+		Session session = Session.getInstance(properties,
+		new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
 
 		MimeMessage message = new MimeMessage(session);
 		try {
 			message.setText(contenu);
+			message.setFrom(new InternetAddress(username));
 			message.setSubject("Retard");
-			message.setRecipients(Message.RecipientType.TO, adherent.getEmail());
+			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(adherent.getEmail()));
+
+			Transport.send(message);
+			System.out.println("Message envoyé!!");
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 
-		Transport transport = null;
-		try {
-			transport = session.getTransport("smtp");
-			transport.sendMessage(message, new Address[] { new InternetAddress(adherent.getEmail()) });
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (transport != null) {
-					transport.close();
-				}
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-		}
+	}
+
+
+	public static void main(String[] args) {
+		Adherent adherent = new Adherent();
+		adherent.setEmail("molina.kevin13010@gmail.com");
+		new EmailServiceImplement().envoyerEmail(adherent, "test");
 	}
 }
