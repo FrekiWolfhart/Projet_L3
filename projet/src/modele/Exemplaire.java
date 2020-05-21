@@ -36,7 +36,7 @@ public class Exemplaire {
 	/**
 	 * null si le livre est libre d'être emprunté
 	 */
-	Pret pretActuel;
+	Pret dernierPret;
 
 	/**
 	 * contient également le pretactuel
@@ -46,13 +46,17 @@ public class Exemplaire {
 	public boolean estPreté() {
 		return !estLibre();
 	}
+	
+	public Pret getPretActuel() {
+		 return estLibre() ? null : getDernierPret();
+	}
 
 	public boolean estLibre() {
-		return pretActuel == null;
+		return getDernierPret() == null || getDernierPret().aEteRendu();
 	}
 
 	public Adherent getEmprunteurActuel() {
-		return getPretActuel() == null ? null : getPretActuel().getAdherent();
+		return estLibre() ? null : getDernierPret().getAdherent();
 	}
 
 	public String toString() {
