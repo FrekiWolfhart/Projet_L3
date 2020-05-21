@@ -10,9 +10,11 @@ import modele.Auteur;
 @Service
 public class AuteurService {
     
+    // Fait le lien entrre le repositiory et le service
     @Autowired
     private AuteurRepository auteurRepository;
 
+    // Récupère tout les éléments du répository sous forme de liste
     public List<Auteur> list(){
         return auteurRepository.findAll();
     }
