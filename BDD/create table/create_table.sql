@@ -20,7 +20,7 @@ create table autheur ( -- many to many
 );
 
 create table reservation (
-	id_adherent int refeences adherent(id),
+	id_adherent int references adherent(id),
 	cote text references oeuvre(cote),
 	primary key(id_adherent, cote)
 );
@@ -44,6 +44,7 @@ create table pret (
 	cote text,
 	numero_exemplaire int,
 	foreign key(cote, numero_exemplaire) references exemplaire(cote, numero),
+	numero_adherent int references adherent(id),
 	date_emprunt timestamp not null,
 	duree_theorique interval not null,
 	date_rendu timestamp
