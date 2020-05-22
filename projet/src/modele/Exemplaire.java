@@ -1,10 +1,14 @@
 package modele;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,22 +29,24 @@ import modele.primaryKeys.ExemplairePK;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "id")
 @Entity
-public class Exemplaire {
+public class Exemplaire implements Serializable {
 
-	@EmbeddedId
 	@Delegate
+	
+	@EmbeddedId
+	@ManyToOne
 	ExemplairePK id;
 
+	@Column(name = "date_achat")
 	LocalDateTime dateAchat;
 
-	/**
-	 * null si le livre est libre d'être emprunté
-	 */
+	@Column(name = "dernier_pret")
 	Pret dernierPret;
 
 	/**
 	 * contient également le pretactuel
 	 */
+	@OneToMany
 	Collection<Pret> historiquePrets;
 
 	public boolean estPreté() {

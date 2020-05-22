@@ -1,5 +1,7 @@
 package modele.primaryKeys;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -22,7 +24,7 @@ import modele.Oeuvre;
 @EqualsAndHashCode
 
 @Embeddable
-public class ReservationPK {
+public class ReservationPK implements Serializable {
 	Adherent adherent;
 	Oeuvre oeuvre;
 }

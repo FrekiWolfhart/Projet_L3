@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,7 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(of = "numero")
 
 @Entity
-public class Adherent {
+public class Adherent implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer numero;
@@ -40,11 +42,11 @@ public class Adherent {
 	LocalDateTime dateAdhesion;
 
 	LocalDateTime datePaiement;
+	
+	@OneToMany
+	Collection<Pret> prets;
 
-	Collection<Pret> pretsEnCours;
-
-	Collection<Pret> pretsTerminés;
-
+	@OneToMany
 	Collection<Reservation> reservations;
 
 	@Override

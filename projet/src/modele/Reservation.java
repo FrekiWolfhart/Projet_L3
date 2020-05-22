@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.EmbeddedId;
@@ -25,7 +26,7 @@ import modele.primaryKeys.ReservationPK;
 @EqualsAndHashCode(of = "id")
 
 @Entity
-public class Reservation {
+public class Reservation implements Serializable {
 
 	@EmbeddedId
 	@Delegate

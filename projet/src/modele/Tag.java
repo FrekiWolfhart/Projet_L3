@@ -1,8 +1,10 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,11 +23,12 @@ import lombok.experimental.FieldDefaults;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "tag")
-public class Tag {
+public class Tag implements Serializable {
 	@Id
 	String tag;
 	
-	Collection<Oeuvre> oauvres;
+	@ManyToMany
+	Collection<Oeuvre> oeuvres;
 	
 	@Override
 	public String toString() {

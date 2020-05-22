@@ -2,7 +2,9 @@ package modele.primaryKeys;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,9 @@ import modele.Oeuvre;
 
 @Embeddable
 public class ExemplairePK implements Serializable {
+	@ManyToOne
+	@Column(name = "cote")
 	Oeuvre oeuvre;
+	@Column(name = "numero")
 	Integer numero;
 }

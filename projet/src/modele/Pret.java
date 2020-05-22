@@ -1,10 +1,13 @@
 package modele;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.Period;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,9 +25,13 @@ import lombok.experimental.FieldDefaults;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "numero")
-public class Pret {
 
-	@GeneratedValue(strategy=GenerationType.AUTO)
+@Entity
+public class Pret implements Serializable{
+
+	@GeneratedValue
+	@Id
+	@Column(name = "id")
 	Integer numero;
 	
 	Exemplaire exemplaire;

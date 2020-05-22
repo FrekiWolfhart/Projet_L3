@@ -1,11 +1,17 @@
 package modele;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import controleur.StreamOfNullable;
 import lombok.AccessLevel;
@@ -24,22 +30,32 @@ import lombok.experimental.FieldDefaults;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "cote")
+
 @Entity
-public class Oeuvre {
+@Table(name = "oeuvre")
+public class Oeuvre implements Serializable {
 
 	@Id
+	@Column(name = "cote")
+	@ManyToOne
 	String cote;
 
-	Collection<Auteur> auteurs;
-
+	@Column(name = "titre")
 	String titre;
 
+	@Column(name = "date_parution")
 	LocalDate dateParution;
 
+	@ManyToMany
+	Collection<Auteur> auteurs;
+	
+	@ManyToMany
 	Collection<Tag> tags;
 
+	@OneToMany(mappedBy = "oeuvre")
 	Collection<Exemplaire> exemplaires;
 
+	@OneToMany(mappedBy = "oeuvre")
 	Collection<Reservation> reservations;
 
 	/**

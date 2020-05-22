@@ -35,7 +35,7 @@ public class NouvelleOeuvreServiceImplement implements NouvelleOeuvreService {
 			// TODO : faire quelque chose si l'oeuvre existe déjà
 		}
 
-		oeuvre = new Oeuvre(cote, auteurs, titre, dateSortie, tags, null, null);
+		oeuvre = new Oeuvre(cote, titre, dateSortie, auteurs, tags, null, null);
 
 		persistance.enregistrer(oeuvre);
 

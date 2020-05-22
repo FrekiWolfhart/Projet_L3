@@ -50,7 +50,7 @@ create table pret (
 );
 
 alter table exemplaire
-add /*CONSTRAINT fk_dernier_pret*/ FOREIGN KEY (dernier_pret) references pret(id)
+add FOREIGN KEY (dernier_pret) references pret(id);
 
 
 
