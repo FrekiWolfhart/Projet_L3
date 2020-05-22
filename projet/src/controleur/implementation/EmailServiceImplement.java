@@ -1,9 +1,10 @@
 package controleur.implementation;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.mail.Message;
@@ -85,6 +86,25 @@ public class EmailServiceImplement implements EmailService {
 			e.printStackTrace();
 		}
 	}
+
+
+		public Map<Adherent, List<Pret>> RecupererListePretEnRetard() {
+			Map<Adherent, List<Pret>> map_pret_retardataire = new HashMap<>();
+			Collection<Adherent> adherents = persistance.getAdherents();
+			for (Adherent adherent : adherents){
+				List<Pret> pretsretard = new ArrayList<>();
+				for(Pret pret : adherent.getPrets()){
+					LocalDate dateemprunt = pret.getDateEmprunt().toLocalDate();
+					LocalDate currentdate = LocalDate.now();
+					if(Duration.between(dateemprunt, currentdate).toDays() > 30){
+						pretsretard.add(pret);
+					}
+				}
+				map_pret_retardataire.put(adherent,pretsretard);
+			}
+			return map_pret_retardataire;
+		}
+
 
 
 	public static void main(String[] args) {
