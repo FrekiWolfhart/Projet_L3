@@ -25,6 +25,8 @@ public interface PersistanceServiceLecture {
 	public Collection<Pret> getPrets();
 	
 	public Pret getPret(int numero);
+	
+	public Collection<Pret> getPretsEnRetard();
 
 	public Collection<Reservation> getReservations();
 

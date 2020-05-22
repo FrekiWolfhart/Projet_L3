@@ -156,4 +156,10 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public Collection<Pret> getPretsEnRetard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
