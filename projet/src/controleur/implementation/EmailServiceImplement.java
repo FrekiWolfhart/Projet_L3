@@ -20,18 +20,21 @@ import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Pret;
+import org.springframework.scheduling.annotation.Scheduled;
 
 public class EmailServiceImplement implements EmailService {
-
 
 
 	@Autowired
 	private PersistanceServiceLecture persistance;
 
 	@Override
+	@Scheduled(cron = "0 0 8 * * MON")
 	public void envoyerEmailRetardataires() {
 		Map<Adherent, List<Pret>> pretsEnRetard = persistance.getPretsEnRetard().stream().collect(Collectors.groupingBy(Pret::getAdherent));
-		// TODO
+		for (Map.Entry<Adherent, List<Pret>> entry : pretsEnRetard.entrySet()) {
+			envoyerEmailRetardataire(entry.getKey(),entry.getValue());
+		}
 	}
 
 	final String username = "biblio.amu.luminy@gmail.com";
@@ -42,9 +45,9 @@ public class EmailServiceImplement implements EmailService {
 		if (pretsEnRetard != null) {
 			String email = "Cher(e) " + adherent.getNom() + " " + adherent.getPrenom()
 					+ "\n Nous vous envoyer ce mail car il se trouve que vous avez oublié de nous retourner certains livres empruntés à notre bibliothèque."
-					+ "\n Pour rappel, la duréee d'emprunt est de un mois. Voici la liste des livres concernés :";
+					+ "\n Pour rappel, la durée d'emprunt est de un mois. Voici la liste des livres concernés :";
 			for (Pret pret : pretsEnRetard) {
-				email += "\n - " + pret.getExemplaire().getOeuvre();
+				email += "\n - " + pret.getExemplaire().getOeuvre().getTitre()+" , "+pret.getExemplaire().getOeuvre().getAuteurs();
 			}
 			email += "\n Merci de retourner au plus vite ces livres" + "\n Cordialement" + "\n Bibliothèque de l'université Aix-Marseille";
 			envoyerEmail(adherent, email);
@@ -63,11 +66,11 @@ public class EmailServiceImplement implements EmailService {
 		properties.put("mail.smtp.auth", "true");
 
 		Session session = Session.getInstance(properties,
-		new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
 
 		MimeMessage message = new MimeMessage(session);
 		try {
@@ -81,7 +84,6 @@ public class EmailServiceImplement implements EmailService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 
