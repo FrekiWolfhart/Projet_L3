@@ -1,17 +1,21 @@
 package controleur.implementation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import controleur.DureePretService;
 import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
@@ -23,11 +27,10 @@ public class EmailServiceImplement implements EmailService {
 
 	@Autowired
 	private PersistanceServiceLecture persistance;
-	@Autowired
-	private DureePretService dureePret;
 
 	@Override
 	public void envoyerEmailRetardataires() {
+		Map<Adherent, List<Pret>> pretsEnRetard = persistance.getPretsEnRetard().stream().collect(Collectors.groupingBy(Pret::getAdherent));
 		// TODO
 	}
 
