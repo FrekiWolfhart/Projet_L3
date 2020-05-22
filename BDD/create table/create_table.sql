@@ -45,7 +45,7 @@ create table pret (
 	numero_exemplaire int,
 	foreign key(cote, numero_exemplaire) references exemplaire(cote, numero),
 	date_emprunt timestamp not null,
-	durer_theorique interval not null,
+	duree_theorique interval not null,
 	date_rendu timestamp
 );
 
