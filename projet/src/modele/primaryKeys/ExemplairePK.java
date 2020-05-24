@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
@@ -27,8 +28,8 @@ import modele.Oeuvre;
 @Embeddable
 public class ExemplairePK implements Serializable {
 	@ManyToOne
-	@Column(name = "cote")
+	@JoinColumn(name = "cote", nullable = false)
 	Oeuvre oeuvre;
-	@Column(name = "numero")
+	@Column(name = "numero", nullable = false)
 	Integer numero;
 }

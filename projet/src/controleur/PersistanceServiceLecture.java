@@ -3,18 +3,16 @@ package controleur;
 import java.util.Collection;
 
 import modele.Adherent;
-import modele.Auteur;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
-import modele.Tag;
 
 public interface PersistanceServiceLecture {
 
 	public Collection<Adherent> getAdherents();
 
-	public Collection<Auteur> getAuteurs();
+	public Collection<String> getAuteurs();
 
 	public Collection<Exemplaire> getExemplaires();
 	
@@ -34,13 +32,13 @@ public interface PersistanceServiceLecture {
 
 	public Collection<Adherent> getAdherents(String email);
 
-	public Auteur getAuteur(String nom);
+	public Collection<Oeuvre> getAuteur(String nom);
 
 	public Oeuvre getOeuvre(String cote);
 
 	public Collection<Oeuvre> getOeuvres(String titre);
 	
-	public Collection<Tag> getTags();
+	public Collection<String> getTags();
 	
-	public Tag getTag(String tag);
+	public Collection<Oeuvre> getTag(String tag);
 }

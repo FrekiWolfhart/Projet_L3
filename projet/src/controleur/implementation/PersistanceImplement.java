@@ -4,12 +4,10 @@ import java.util.Collection;
 
 import controleur.PersistanceServiceEcriture;
 import modele.Adherent;
-import modele.Auteur;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
-import modele.Tag;
 
 public class PersistanceImplement implements PersistanceServiceEcriture {
 
@@ -20,7 +18,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
-	public Collection<Auteur> getAuteurs() {
+	public Collection<String> getAuteurs() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,6 +54,12 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
+	public Collection<Pret> getPretsEnRetard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public Collection<Reservation> getReservations() {
 		// TODO Auto-generated method stub
 		return null;
@@ -74,7 +78,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
-	public Auteur getAuteur(String nom) {
+	public Collection<Oeuvre> getAuteur(String nom) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -92,13 +96,13 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
-	public Collection<Tag> getTags() {
+	public Collection<String> getTags() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Tag getTag(String tag) {
+	public Collection<Oeuvre> getTag(String tag) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -111,12 +115,6 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	@Override
 	public void mettreAJour(Adherent adherent) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void enregistrer(Auteur auteur) {
 		// TODO Auto-generated method stub
 
 	}
@@ -157,9 +155,4 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	}
 
-	@Override
-	public Collection<Pret> getPretsEnRetard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

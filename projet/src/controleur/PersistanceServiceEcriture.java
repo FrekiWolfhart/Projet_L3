@@ -1,7 +1,6 @@
 package controleur;
 
 import modele.Adherent;
-import modele.Auteur;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
@@ -12,8 +11,6 @@ public interface PersistanceServiceEcriture extends PersistanceServiceLecture {
 	public void enregistrer(Adherent adherent);
 
 	public void mettreAJour(Adherent adherent);
-
-	public void enregistrer(Auteur auteur);
 
 	public void enregistrer(Exemplaire exemplaire);
 

@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -46,11 +45,11 @@ public class Oeuvre implements Serializable {
 	@Column(name = "date_parution")
 	LocalDate dateParution;
 
-	@ManyToMany
-	Collection<Auteur> auteurs;
+	@OneToMany
+	Collection<String> auteurs; // TODO
 	
-	@ManyToMany
-	Collection<Tag> tags;
+	@OneToMany
+	Collection<String> tags; // TODO
 
 	@OneToMany(mappedBy = "oeuvre")
 	Collection<Exemplaire> exemplaires;

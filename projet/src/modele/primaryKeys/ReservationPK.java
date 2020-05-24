@@ -3,6 +3,8 @@ package modele.primaryKeys;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,11 @@ import modele.Oeuvre;
 
 @Embeddable
 public class ReservationPK implements Serializable {
+	@ManyToOne
+	@JoinColumn(name = "id_adherent", nullable = false)
 	Adherent adherent;
+	
+	@ManyToOne
+	@JoinColumn(name = "cote", nullable = false)
 	Oeuvre oeuvre;
 }

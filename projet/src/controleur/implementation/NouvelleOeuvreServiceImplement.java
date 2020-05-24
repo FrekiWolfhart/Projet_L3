@@ -2,17 +2,13 @@ package controleur.implementation;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import controleur.DateService;
 import controleur.NouvelleOeuvreService;
 import controleur.PersistanceServiceEcriture;
-import controleur.StreamOfNullable;
-import modele.Auteur;
 import modele.Oeuvre;
-import modele.Tag;
 
 public class NouvelleOeuvreServiceImplement implements NouvelleOeuvreService {
 
@@ -25,9 +21,7 @@ public class NouvelleOeuvreServiceImplement implements NouvelleOeuvreService {
 	}
 
 	@Override
-	public Oeuvre ajouterOeuvre(String cote, String titre, LocalDate dateSortie, Collection<String> nomAuteurs, Collection<String> tagsStrings) {
-		Collection<Auteur> auteurs = StreamOfNullable.stream(nomAuteurs).map(persistance::getAuteur).collect(Collectors.toList());
-		Collection<Tag> tags = StreamOfNullable.stream(tagsStrings).map(persistance::getTag).collect(Collectors.toList());
+	public Oeuvre ajouterOeuvre(String cote, String titre, LocalDate dateSortie, Collection<String> auteurs, Collection<String> tags) {
 
 		Oeuvre oeuvre = persistance.getOeuvre(cote);
 

@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(of = "numero")
 
 @Entity
+@Table(name = "pret")
 public class Pret implements Serializable{
 
 	@GeneratedValue
@@ -34,20 +37,27 @@ public class Pret implements Serializable{
 	@Column(name = "id")
 	Integer numero;
 	
+	// TODO : mapping hibernate avec clé primaire composée
+	@ManyToOne
 	Exemplaire exemplaire;
 
+	@Column(name = "numero_adherent")
+	@ManyToOne
 	Adherent adherent;
 
+	@Column(name = "date_emprunt")
 	LocalDateTime dateEmprunt;
 
 	/**
 	 * la date théorique de fin de pret (sera une durée sous forme d'Interval en SQL)
 	 */
+	@Column(name = "duree_theorique")
 	Period duréeThéorique;
 
 	/**
 	 * date effective du rendu du pret
 	 */
+	@Column(name = "date_rendu")
 	LocalDateTime dateRendu;
 
 	public boolean aEteRendu() {
