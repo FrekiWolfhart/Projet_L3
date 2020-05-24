@@ -1,1 +1,0 @@
-import into auteur values("John Smith", null);
