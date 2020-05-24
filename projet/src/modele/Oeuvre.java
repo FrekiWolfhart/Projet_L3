@@ -5,9 +5,12 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -45,10 +48,14 @@ public class Oeuvre implements Serializable {
 	@Column(name = "date_parution")
 	LocalDate dateParution;
 
-	@OneToMany
-	Collection<String> auteurs; // TODO
+	@ElementCollection
+	@CollectionTable(name = "autheur", joinColumns = @JoinColumn(name = "cote"))
+	@Column(name = "nom")
+	Collection<String> auteurs; 
 	
-	@OneToMany
+	@ElementCollection
+	@CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "cote"))
+	@Column(name = "mot")
 	Collection<String> tags; // TODO
 
 	@OneToMany(mappedBy = "oeuvre")
