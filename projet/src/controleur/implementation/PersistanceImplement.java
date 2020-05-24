@@ -2,14 +2,39 @@ package controleur.implementation;
 
 import java.util.Collection;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import controleur.PersistanceServiceEcriture;
 import modele.Adherent;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
+import modele.primaryKeys.ExemplairePK;
+import modele.primaryKeys.ReservationPK;
 
 public class PersistanceImplement implements PersistanceServiceEcriture {
+
+	private final SessionFactory sessionFactory;
+
+	public PersistanceImplement() {
+		Configuration config = new Configuration();
+
+		config.addPackage("modele").addPackage("modele.primaryKeys");
+
+		config.addAnnotatedClass(ExemplairePK.class).addAnnotatedClass(ReservationPK.class).addAnnotatedClass(Adherent.class)
+				.addAnnotatedClass(Exemplaire.class).addAnnotatedClass(Oeuvre.class).addAnnotatedClass(Pret.class).addAnnotatedClass(Reservation.class);
+
+		config.configure(); // TODO
+
+		this.sessionFactory = config.buildSessionFactory();
+	}
+
+	private Session newSession() {
+		return sessionFactory.openSession();
+	}
 
 	@Override
 	public Collection<Adherent> getAdherents() {

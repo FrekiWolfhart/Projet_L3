@@ -11,7 +11,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,14 +37,13 @@ import lombok.experimental.FieldDefaults;
 public class Oeuvre implements Serializable {
 
 	@Id
-	@Column(name = "cote")
-	@ManyToOne
+	@Column(name = "cote", nullable = false)
 	String cote;
 
-	@Column(name = "titre")
+	@Column(name = "titre", nullable = false)
 	String titre;
 
-	@Column(name = "date_parution")
+	@Column(name = "date_parution", nullable = true)
 	LocalDate dateParution;
 
 	@ElementCollection
@@ -56,7 +54,7 @@ public class Oeuvre implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "cote"))
 	@Column(name = "mot")
-	Collection<String> tags; // TODO
+	Collection<String> tags;
 
 	@OneToMany(mappedBy = "oeuvre")
 	Collection<Exemplaire> exemplaires;

@@ -33,24 +33,24 @@ import lombok.experimental.FieldDefaults;
 public class Adherent implements Serializable {
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "id", nullable = false)
 	Integer numero;
 
-	@Column(name = "nom")
+	@Column(name = "nom", nullable = false)
 	String nom;
-	
-	@Column(name = "prenom")
+
+	@Column(name = "prenom", nullable = false)
 	String prenom;
 
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	String email;
 
-	@Column(name = "date_adhesion")
+	@Column(name = "date_adhesion", nullable = false)
 	LocalDateTime dateAdhesion;
 
-	@Column(name = "date_paiement")
+	@Column(name = "date_paiement", nullable = true)
 	LocalDateTime datePaiement;
-	
+
 	@OneToMany(mappedBy = "adherent")
 	Collection<Pret> prets;
 

@@ -30,6 +30,7 @@ public class ExemplairePK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "cote", nullable = false)
 	Oeuvre oeuvre;
+
 	@Column(name = "numero", nullable = false)
 	Integer numero;
 }

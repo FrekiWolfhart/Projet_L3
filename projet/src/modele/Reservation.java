@@ -3,6 +3,7 @@ package modele;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -32,7 +33,9 @@ public class Reservation implements Serializable {
 	@Delegate
 	ReservationPK id;
 
+	@Column(name = "date_reservation", nullable = false)
 	LocalDateTime dateReservation;
 	
+	@Column(name = "date_proposition", nullable = true)
 	LocalDateTime dateProposition;
 }

@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -37,11 +39,14 @@ public class Pret implements Serializable{
 	@Column(name = "id")
 	Integer numero;
 	
-	// TODO : mapping hibernate avec clé primaire composée
 	@ManyToOne
+    @JoinColumns({
+        @JoinColumn(name="cote", referencedColumnName="cote"),
+        @JoinColumn(name="numero_exemplaire", referencedColumnName="numero")
+    })
 	Exemplaire exemplaire;
 
-	@Column(name = "numero_adherent")
+	@JoinColumn(name = "numero_adherent")
 	@ManyToOne
 	Adherent adherent;
 

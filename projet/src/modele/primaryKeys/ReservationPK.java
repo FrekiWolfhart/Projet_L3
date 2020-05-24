@@ -30,7 +30,7 @@ public class ReservationPK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_adherent", nullable = false)
 	Adherent adherent;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cote", nullable = false)
 	Oeuvre oeuvre;
