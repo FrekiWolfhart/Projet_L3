@@ -1,0 +1,136 @@
+.header {
+	height: 300px;
+	width: 100%;
+	background: rgb(62,57,187);
+	position: relative;
+	
+}
+
+.header_texture{
+	width:100%;
+	height: 100%;
+	position: absolute;
+	top: 0;left: 0;
+	background: url('../img/libre.jpg')center no-repeat;
+	background-size: cover;
+	z-index: 1;
+	opacity: 0.5;
+}	
+
+/*bord arrondi .header_mask{
+	position: absolute;
+	bottom: 0;
+	background: 0 0;
+	height: 42px;
+	width: 100%;
+	z-index: 10;
+}	*/
+.header_navbar{
+	width: 100%;
+	height: 100px;
+	display: flex; 
+	flex-direction: row; 
+	justify-content: space-between; 
+	align-items: center;
+}
+
+
+.header_navbar--logo-title {
+	color: #fff;
+	font-size: 28px;
+	
+}
+	
+	
+.header_navbar--menu-link{
+	margin-left: 30px;
+	color: #fff;
+	text-decoration: none;
+}
+	
+.header_slogan{
+	text-align: center;
+	margin-top: 60px
+}
+	
+.header_slogan--title{
+	color: #fff;
+	font-size: 40px;
+	text-transform: uppercase;
+	font-style:italic;
+	letter-spacing: 2px;
+	margin-top: -60px
+	
+	
+}	
+
+.header_slogan--btn{
+	color: #fff;
+	font-size:10px;
+	text-decoration: none;
+	padding: 15px 20px;
+	background: #e67e22;
+	border-radius: 4px;
+	margin-top: 10px
+}
+
+
+.header_navbar--toggle{
+	width: 40px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	display: none;
+	cursor: pointer; 
+	
+}	
+
+.header_navbar--toggle-icons, .header_navbar--toggle-icons:before, .header_navbar--toggle-icons:after{ /*3 barres du hamburger, le menu burger sert pour un petit ecran*/
+	content: "";
+	display: block;
+	width: 100%;
+	height: 3px;
+	border-radius: 5px;
+	background: #fff;
+	position: relative;
+}
+
+/* on sépare les 3 barres*/
+.header_navbar--toggle-icons:before {top: 10px}
+.header_navbar--toggle-icons:after {top: -14px}
+
+.is-open .header_navbar--menu{
+	transform: translateY(0); /*on accède a la fonction javascript pour retranslater le menu à 0 */
+}
+/* on déclare le responsive a partir de la taille de notre écran, le moment où ça casse*/
+@media only screen and (max-width: 600px){/* le hamburger s'affiche quand on passe 600 pixels*/
+	.container{/* dans la base qui s'occupait des marges, a la place on met un padding pour avoir des petites marges cote*/
+		width:100%;
+		padding: 0 20px;
+	}	
+	.header_navbar--toggle{
+		display: flex; /*pour centrer*/
+		z-index:1000;
+	}	
+	.header_navbar--menu{
+		transition: all 0.3s ease-in-out;/* réaction du déroulé*/
+		transform: translateY(-100%); /*faire dérouler le menu*/
+		display:flex;
+		flex-direction:column; /* pour mettre ne colonne*/
+		justify-content:center;
+		align-items:center;
+		position:absolute;
+		width:100vw;
+		height:100vh;
+		background: #e67e22;
+		top:0;left:0;
+	}
+	.header_navbar--menu-link{/* por espacer les items*/
+		margin: 20px 0;
+		font-size:24px;
+	}	
+	.header_slogan--title{
+		font-size:40px;
+	}	
+	
+}	
