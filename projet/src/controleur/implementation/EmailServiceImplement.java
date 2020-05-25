@@ -1,11 +1,12 @@
 package controleur.implementation;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,15 +17,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Pret;
-import org.springframework.scheduling.annotation.Scheduled;
 
 public class EmailServiceImplement implements EmailService {
-
 
 	@Autowired
 	private PersistanceServiceLecture persistance;
@@ -32,7 +32,7 @@ public class EmailServiceImplement implements EmailService {
 	@Override
 	@Scheduled(cron = "0 0 8 * * MON")
 	public void envoyerEmailRetardataires() {
-		//Map<Adherent, List<Pret>> pretsEnRetard = persistance.getPretsEnRetard().stream().collect(Collectors.groupingBy(Pret::getAdherent));
+		// Map<Adherent, List<Pret>> pretsEnRetard = persistance.getPretsEnRetard().stream().collect(Collectors.groupingBy(Pret::getAdherent));
 		Map<Adherent, List<Pret>> pretsEnRetard = RecupererMapPretsEnRetard();
 		for (Map.Entry<Adherent, List<Pret>> entry : pretsEnRetard.entrySet()) {
 			envoyerEmailRetardataire(entry.getKey(), entry.getValue());
@@ -47,12 +47,12 @@ public class EmailServiceImplement implements EmailService {
 		if (pretsEnRetard != null) {
 			String email = "Cher(e) " + adherent.getNom() + " " + adherent.getPrenom()
 					+ "\n Nous vous envoyons ce mail car il se trouve que vous avez oublié de nous retourner certains livres empruntés à notre bibliothèque."
-					+ "\n Pour rappel, la durée d'emprunt est de un mois. Voici la liste des livres concernés :" +
-					"\n";
+					+ "\n Pour rappel, la durée d'emprunt est de un mois. Voici la liste des livres concernés :" + "\n";
 			for (Pret pret : pretsEnRetard) {
-				email = email.concat( "\n    - " + pret.getExemplaire().getOeuvre().getTitre() + " , " + pret.getExemplaire().getOeuvre().getAuteurs());
+				email = email.concat("\n    - " + pret.getExemplaire().getOeuvre().getTitre() + " , " + pret.getExemplaire().getOeuvre().getAuteurs());
 			}
-			email += "\n\n Merci de retourner au plus vite ces livres, ou bien prolonger votre abonnement." + "\n Cordialement" + "\n Bibliothèque de l'université Aix-Marseille";
+			email += "\n\n Merci de retourner au plus vite ces livres, ou bien prolonger votre abonnement." + "\n Cordialement"
+					+ "\n Bibliothèque de l'université Aix-Marseille";
 			envoyerEmail(adherent, email);
 		}
 	}
@@ -67,12 +67,11 @@ public class EmailServiceImplement implements EmailService {
 		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		properties.put("mail.smtp.auth", "true");
 
-		Session session = Session.getInstance(properties,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				});
+		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
 
 		MimeMessage message = new MimeMessage(session);
 		try {
@@ -87,7 +86,6 @@ public class EmailServiceImplement implements EmailService {
 			e.printStackTrace();
 		}
 	}
-
 
 	public Map<Adherent, List<Pret>> RecupererMapPretsEnRetard() {
 		Map<Adherent, List<Pret>> mapPretsRetardataires = new HashMap<>();
@@ -106,12 +104,3 @@ public class EmailServiceImplement implements EmailService {
 		return mapPretsRetardataires;
 	}
 }
-
-
-
-//	public static void main(String[] args) {
-////		Adherent adherent = new Adherent();
-////		adherent.setEmail("molina.kevin13010@gmail.com");
-////		new EmailServiceImplement().envoyerEmail(adherent, "test");
-//	}
-//}

@@ -1,9 +1,15 @@
 package controleur.implementation;
 
 import java.util.Collection;
+import java.util.function.Function;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import controleur.PersistanceServiceEcriture;
@@ -27,157 +33,202 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 		config.addAnnotatedClass(ExemplairePK.class).addAnnotatedClass(ReservationPK.class).addAnnotatedClass(Adherent.class)
 				.addAnnotatedClass(Exemplaire.class).addAnnotatedClass(Oeuvre.class).addAnnotatedClass(Pret.class).addAnnotatedClass(Reservation.class);
 
-		config.configure(); // TODO
+		config.configure("config/hibernate.cfg.xml");
 
 		this.sessionFactory = config.buildSessionFactory();
 	}
 
-	private Session newSession() {
-		return sessionFactory.openSession();
+	private Session getSession() {
+		return sessionFactory.getCurrentSession();
+	}
+
+	/**
+	 * créer une transaction et effectu un commit à la fin de la transaction
+	 * 
+	 * @param <E>
+	 */
+	private <E> E executer(Function<Session, E> fonction) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+
+		E result = fonction.apply(session);
+
+		tx.commit();
+
+		return result;
+	}
+
+	private <E> Collection<E> getAll(Class<E> classe) {
+		return executer(session -> {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<E> query = builder.createQuery(classe);
+			Root<E> root = query.from(classe);
+			query.select(root);
+
+			return session.createQuery(query).getResultList();
+		});
 	}
 
 	@Override
 	public Collection<Adherent> getAdherents() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAll(Adherent.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Collection<String> selectDistinct(String table, String colonne) {
+		return executer(session -> session.createQuery("select distinct " + colonne + " from " + table).getResultList());
 	}
 
 	@Override
 	public Collection<String> getAuteurs() {
-		// TODO Auto-generated method stub
-		return null;
+		return selectDistinct("auteur", "nom");
 	}
 
 	@Override
 	public Collection<Exemplaire> getExemplaires() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAll(Exemplaire.class);
 	}
 
 	@Override
 	public Exemplaire getExemplaire(String cote, int numero) {
-		// TODO Auto-generated method stub
-		return null;
+		return getSession().get(Exemplaire.class, new ExemplairePK(getOeuvre(cote), numero));
 	}
 
 	@Override
 	public Collection<Oeuvre> getOeuvres() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAll(Oeuvre.class);
 	}
 
 	@Override
 	public Collection<Pret> getPrets() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAll(Pret.class);
 	}
 
 	@Override
 	public Pret getPret(int numero) {
-		// TODO Auto-generated method stub
-		return null;
+		return getSession().get(Pret.class, numero);
 	}
 
 	@Override
 	public Collection<Pret> getPretsEnRetard() {
-		// TODO Auto-generated method stub
+		// TODO prets en retard
 		return null;
 	}
 
 	@Override
 	public Collection<Reservation> getReservations() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAll(Reservation.class);
 	}
 
 	@Override
 	public Adherent getAdherent(int numero) {
-		// TODO Auto-generated method stub
-		return null;
+		return getSession().get(Adherent.class, numero);
 	}
 
-	@Override
-	public Collection<Adherent> getAdherents(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/**
+	 * @return les objets de type classe donc le champs colonne vaut valeur
+	 */
+	private <E> Collection<E> getWhereEquals(Class<E> classe, String colonne, Object valeur) {
+		return executer(session -> {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<E> query = builder.createQuery(classe);
+			Root<E> root = query.from(classe);
+			query.select(root);
 
-	@Override
-	public Collection<Oeuvre> getAuteur(String nom) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			query.where(builder.equal(root.get(colonne), valeur));
 
-	@Override
-	public Oeuvre getOeuvre(String cote) {
-		// TODO Auto-generated method stub
-		return null;
+			return session.createQuery(query).getResultList();
+		});
 	}
 
 	@Override
 	public Collection<Oeuvre> getOeuvres(String titre) {
-		// TODO Auto-generated method stub
-		return null;
+		return getWhereEquals(Oeuvre.class, "titre", titre);
 	}
 
 	@Override
-	public Collection<String> getTags() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Adherent> getAdherents(String email) {
+		return getWhereEquals(Adherent.class, "email", email);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Collection<Oeuvre> getOeuvresManyToMany(String autreTable, String colonne, String valeur) {
+		return executer(session -> session.createQuery(
+				"select distinct o from " + autreTable + ", oeuvre o where " + autreTable + "." + colonne + " = :valeur AND " + autreTable + ".cote = o.cote")
+				.setParameter("valeur", valeur).getResultList());
+	}
+
+	@Override
+	public Collection<Oeuvre> getAuteur(String nom) {
+		return getOeuvresManyToMany("auteur", "nom", nom);
 	}
 
 	@Override
 	public Collection<Oeuvre> getTag(String tag) {
-		// TODO Auto-generated method stub
-		return null;
+		return getOeuvresManyToMany("tag", "mot", tag);
+	}
+
+	@Override
+	public Oeuvre getOeuvre(String cote) {
+		return getSession().get(Oeuvre.class, cote);
+	}
+
+	@Override
+	public Collection<String> getTags() {
+		return selectDistinct("tags", "mot");
+	}
+
+	private void save(Object o) {
+		executer(session -> session.save(o));
+	}
+
+	private void update(Object o) {
+		executer(session -> {
+			session.update(o);
+			return null;
+		});
 	}
 
 	@Override
 	public void enregistrer(Adherent adherent) {
-		// TODO Auto-generated method stub
-
+		save(adherent);
 	}
 
 	@Override
 	public void mettreAJour(Adherent adherent) {
-		// TODO Auto-generated method stub
-
+		update(adherent);
 	}
 
 	@Override
 	public void enregistrer(Exemplaire exemplaire) {
-		// TODO Auto-generated method stub
-
+		save(exemplaire);
 	}
 
 	@Override
 	public void enregistrer(Oeuvre oeuvre) {
-		// TODO Auto-generated method stub
-
+		save(oeuvre);
 	}
 
 	@Override
 	public void enregistrer(Pret pret) {
-		// TODO Auto-generated method stub
-
+		save(pret);
 	}
 
 	@Override
 	public void mettreAJour(Pret pret) {
-		// TODO Auto-generated method stub
-
+		update(pret);
 	}
 
 	@Override
 	public void enregistrer(Reservation reservation) {
-		// TODO Auto-generated method stub
-
+		save(reservation);
 	}
 
 	@Override
 	public void supprimer(Reservation reservation) {
-		// TODO Auto-generated method stub
-
+		executer(session -> {
+			session.delete(reservation);
+			return null;
+		});
 	}
-
 }

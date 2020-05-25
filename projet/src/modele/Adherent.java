@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -32,7 +33,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "adherent")
 public class Adherent implements Serializable {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
 	Integer numero;
 
@@ -54,7 +55,7 @@ public class Adherent implements Serializable {
 	@OneToMany(mappedBy = "adherent")
 	Collection<Pret> prets;
 
-	@OneToMany(mappedBy = "adherent")
+	@OneToMany(mappedBy = "id.adherent")
 	Collection<Reservation> reservations;
 
 	@Override

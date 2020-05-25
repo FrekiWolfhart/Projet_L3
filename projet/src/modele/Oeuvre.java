@@ -56,10 +56,10 @@ public class Oeuvre implements Serializable {
 	@Column(name = "mot")
 	Collection<String> tags;
 
-	@OneToMany(mappedBy = "oeuvre")
+	@OneToMany(mappedBy = "id.oeuvre")
 	Collection<Exemplaire> exemplaires;
 
-	@OneToMany(mappedBy = "oeuvre")
+	@OneToMany(mappedBy = "id.oeuvre")
 	Collection<Reservation> reservations;
 
 	/**
