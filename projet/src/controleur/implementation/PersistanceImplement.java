@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.function.Function;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -58,7 +60,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 		return result;
 	}
-	
+
 	private <E> E get(Class<E> classe, Serializable id) {
 		return executer(session -> session.get(classe, id));
 	}
@@ -156,21 +158,29 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 		return getWhereEquals(Adherent.class, "email", email);
 	}
 
-	@SuppressWarnings("unchecked")
-	public Collection<Oeuvre> getOeuvresManyToMany(String autreTable, String colonne, String valeur) {
-		return executer(session -> session.createQuery(
-				"select distinct o from " + autreTable + ", oeuvre o where " + autreTable + "." + colonne + " = :valeur AND " + autreTable + ".cote = o.cote")
-				.setParameter("valeur", valeur).getResultList());
+	private Collection<Oeuvre> getOeuvresManyToMany(String attribut, String valeur) {
+		return executer(session -> {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Oeuvre> criteria = builder.createQuery(Oeuvre.class);
+			Root<Oeuvre> p = criteria.from(Oeuvre.class);
+			criteria.select(p);
+
+			Expression<Collection<String>> auteurs = p.get(attribut);
+			criteria.where(builder.isMember(valeur, auteurs));
+
+			TypedQuery<Oeuvre> tq = session.createQuery(criteria);
+			return tq.getResultList();
+		});
 	}
 
 	@Override
 	public Collection<Oeuvre> getAuteur(String nom) {
-		return getOeuvresManyToMany("auteur", "nom", nom);
+		return getOeuvresManyToMany("auteurs", nom);
 	}
 
 	@Override
 	public Collection<Oeuvre> getTag(String tag) {
-		return getOeuvresManyToMany("tag", "mot", tag);
+		return getOeuvresManyToMany("tags", tag);
 	}
 
 	@Override
