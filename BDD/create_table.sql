@@ -1,4 +1,4 @@
-drop table if exists pret, exemplaire, tag, reservation, autheur, oeuvre, adherent cascade;
+drop table if exists pret, exemplaire, tag, reservation, auteur, oeuvre, adherent cascade;
 
 
 create table adherent (
@@ -16,7 +16,7 @@ create table oeuvre (
 	date_parution date
 );
 
-create table autheur ( -- many to many
+create table auteur ( -- many to many
 	nom text not null,
 	cote text references oeuvre(cote) not null,
 	primary key(nom, cote)

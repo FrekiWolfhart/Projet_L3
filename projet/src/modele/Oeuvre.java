@@ -47,7 +47,7 @@ public class Oeuvre implements Serializable {
 	LocalDate dateParution;
 
 	@ElementCollection
-	@CollectionTable(name = "autheur", joinColumns = @JoinColumn(name = "cote"))
+	@CollectionTable(name = "auteur", joinColumns = @JoinColumn(name = "cote"))
 	@Column(name = "nom")
 	Collection<String> auteurs; 
 	

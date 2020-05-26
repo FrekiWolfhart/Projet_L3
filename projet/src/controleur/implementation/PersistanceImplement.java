@@ -1,5 +1,6 @@
 package controleur.implementation;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -57,6 +58,10 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 		return result;
 	}
+	
+	private <E> E get(Class<E> classe, Serializable id) {
+		return executer(session -> session.get(classe, id));
+	}
 
 	private <E> Collection<E> getAll(Class<E> classe) {
 		return executer(session -> {
@@ -91,7 +96,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	@Override
 	public Exemplaire getExemplaire(String cote, int numero) {
-		return getSession().get(Exemplaire.class, new ExemplairePK(getOeuvre(cote), numero));
+		return get(Exemplaire.class, new ExemplairePK(getOeuvre(cote), numero));
 	}
 
 	@Override
@@ -106,7 +111,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	@Override
 	public Pret getPret(int numero) {
-		return getSession().get(Pret.class, numero);
+		return get(Pret.class, numero);
 	}
 
 	@Override
@@ -122,7 +127,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	@Override
 	public Adherent getAdherent(int numero) {
-		return getSession().get(Adherent.class, numero);
+		return get(Adherent.class, numero);
 	}
 
 	/**
@@ -170,7 +175,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 
 	@Override
 	public Oeuvre getOeuvre(String cote) {
-		return getSession().get(Oeuvre.class, cote);
+		return get(Oeuvre.class, cote);
 	}
 
 	@Override
