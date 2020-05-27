@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,13 @@ public class AdherentController {
     private PersistanceServiceLecture persistance;
 
     @GetMapping("/Adherents")
-    public Collection<Adherent> GetAllAdherents(){
+    public Collection<Adherent> getAllAdherents(){
         return persistance.getAdherents();
+    }
+
+    @GetMapping("/Adherents/{id}")
+    public Adherent getAdherentById(@PathVariable int id){
+        return persistance.getAdherent(id);
     }
 
 
