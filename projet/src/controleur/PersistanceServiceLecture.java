@@ -17,7 +17,7 @@ public interface PersistanceServiceLecture {
 	public Collection<Exemplaire> getExemplaires();
 	
 	public Exemplaire getExemplaire(String cote, int numero);
-
+	
 	public Collection<Oeuvre> getOeuvres();
 
 	public Collection<Pret> getPrets();
@@ -27,7 +27,7 @@ public interface PersistanceServiceLecture {
 	public Collection<Pret> getPretsEnRetard();
 
 	public Collection<Reservation> getReservations();
-
+	
 	public Adherent getAdherent(int numero);
 
 	public Collection<Adherent> getAdherents(String email);

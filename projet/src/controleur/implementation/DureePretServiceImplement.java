@@ -2,8 +2,11 @@ package controleur.implementation;
 
 import java.time.Period;
 
+import org.springframework.stereotype.Component;
+
 import controleur.DureePretService;
 
+@Component("dureePretService")
 public class DureePretServiceImplement implements DureePretService {
 
 	@Override

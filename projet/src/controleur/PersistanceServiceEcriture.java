@@ -6,7 +6,7 @@ import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
 
-public interface PersistanceServiceEcriture extends PersistanceServiceLecture {
+public interface PersistanceServiceEcriture {
 
 	public void enregistrer(Adherent adherent);
 

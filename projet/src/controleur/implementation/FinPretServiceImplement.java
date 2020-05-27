@@ -1,21 +1,27 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import controleur.DateService;
 import controleur.FinPretService;
 import controleur.PersistanceServiceEcriture;
+import controleur.PersistanceServiceLecture;
 import modele.Exemplaire;
 import modele.Pret;
 
+@Component("finPretService")
 public class FinPretServiceImplement implements FinPretService {
 
 	@Autowired
-	private PersistanceServiceEcriture persistance;
+	private PersistanceServiceEcriture ecriture;
+
+	@Autowired
+	private PersistanceServiceLecture lecture;
 
 	@Override
 	public void rendreLivre(String oeuvre, int numeroExemplaire) {
-		Exemplaire exemplaire = persistance.getExemplaire(oeuvre, numeroExemplaire);
+		Exemplaire exemplaire = lecture.getExemplaire(oeuvre, numeroExemplaire);
 
 		if (exemplaire == null) {
 			// TODO
@@ -35,7 +41,7 @@ public class FinPretServiceImplement implements FinPretService {
 
 	@Override
 	public void rendreLivre(int numeroPret) {
-		Pret pret = persistance.getPret(numeroPret);
+		Pret pret = lecture.getPret(numeroPret);
 
 		if (pret == null) {
 			// TODO
@@ -47,6 +53,6 @@ public class FinPretServiceImplement implements FinPretService {
 	@Override
 	public void rendreLivre(Pret pret) {
 		pret.setDateRendu(DateService.getDateTime());
-		persistance.mettreAJour(pret);
+		ecriture.mettreAJour(pret);
 	}
 }

@@ -2,7 +2,6 @@ package controleur.implementation;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.function.Function;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,60 +9,19 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.NotYetImplementedException;
+import org.springframework.stereotype.Component;
 
-import controleur.PersistanceServiceEcriture;
+import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
 import modele.primaryKeys.ExemplairePK;
-import modele.primaryKeys.ReservationPK;
 
-public class PersistanceImplement implements PersistanceServiceEcriture {
-
-	private final SessionFactory sessionFactory;
-
-	public PersistanceImplement() {
-		Configuration config = new Configuration();
-
-		config.addPackage("modele").addPackage("modele.primaryKeys");
-
-		config.addAnnotatedClass(ExemplairePK.class).addAnnotatedClass(ReservationPK.class).addAnnotatedClass(Adherent.class)
-				.addAnnotatedClass(Exemplaire.class).addAnnotatedClass(Oeuvre.class).addAnnotatedClass(Pret.class).addAnnotatedClass(Reservation.class);
-
-		config.configure("config/hibernate.cfg.xml");
-
-		this.sessionFactory = config.buildSessionFactory();
-	}
-
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
-
-	/**
-	 * créer une transaction et effectu un commit à la fin de la transaction
-	 * 
-	 * @param <E>
-	 */
-	private <E> E executer(Function<Session, E> fonction) {
-		Session session = getSession();
-		Transaction tx = session.beginTransaction();
-
-		E result = fonction.apply(session);
-
-		tx.commit();
-
-		return result;
-	}
-
-	private <E> E get(Class<E> classe, Serializable id) {
-		return executer(session -> session.get(classe, id));
-	}
+@Component("lecture")
+public class LectureImplement extends AbstractPersistance implements PersistanceServiceLecture {
 
 	private <E> Collection<E> getAll(Class<E> classe) {
 		return executer(session -> {
@@ -76,14 +34,19 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 		});
 	}
 
-	@Override
-	public Collection<Adherent> getAdherents() {
-		return getAll(Adherent.class);
+	private <E> E get(Class<E> classe, Serializable id) {
+		return executer(session -> session.get(classe, id));
 	}
 
+	// TODO : utiliser criteria
 	@SuppressWarnings("unchecked")
 	public Collection<String> selectDistinct(String table, String colonne) {
 		return executer(session -> session.createQuery("select distinct " + colonne + " from " + table).getResultList());
+	}
+
+	@Override
+	public Collection<Adherent> getAdherents() {
+		return getAll(Adherent.class);
 	}
 
 	@Override
@@ -119,7 +82,7 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	@Override
 	public Collection<Pret> getPretsEnRetard() {
 		// TODO prets en retard
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 	@Override
@@ -149,11 +112,6 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
-	public Collection<Oeuvre> getOeuvres(String titre) {
-		return getWhereEquals(Oeuvre.class, "titre", titre);
-	}
-
-	@Override
 	public Collection<Adherent> getAdherents(String email) {
 		return getWhereEquals(Adherent.class, "email", email);
 	}
@@ -165,8 +123,8 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 			Root<Oeuvre> p = criteria.from(Oeuvre.class);
 			criteria.select(p);
 
-			Expression<Collection<String>> auteurs = p.get(attribut);
-			criteria.where(builder.isMember(valeur, auteurs));
+			Expression<Collection<String>> valeurs = p.get(attribut);
+			criteria.where(builder.isMember(valeur, valeurs));
 
 			TypedQuery<Oeuvre> tq = session.createQuery(criteria);
 			return tq.getResultList();
@@ -179,13 +137,13 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 	}
 
 	@Override
-	public Collection<Oeuvre> getTag(String tag) {
-		return getOeuvresManyToMany("tags", tag);
+	public Oeuvre getOeuvre(String cote) {
+		return get(Oeuvre.class, cote);
 	}
 
 	@Override
-	public Oeuvre getOeuvre(String cote) {
-		return get(Oeuvre.class, cote);
+	public Collection<Oeuvre> getOeuvres(String titre) {
+		return getWhereEquals(Oeuvre.class, "titre", titre);
 	}
 
 	@Override
@@ -193,57 +151,9 @@ public class PersistanceImplement implements PersistanceServiceEcriture {
 		return selectDistinct("tags", "mot");
 	}
 
-	private void save(Object o) {
-		executer(session -> session.save(o));
-	}
-
-	private void update(Object o) {
-		executer(session -> {
-			session.update(o);
-			return null;
-		});
-	}
-
 	@Override
-	public void enregistrer(Adherent adherent) {
-		save(adherent);
+	public Collection<Oeuvre> getTag(String tag) {
+		return getOeuvresManyToMany("tags", tag);
 	}
 
-	@Override
-	public void mettreAJour(Adherent adherent) {
-		update(adherent);
-	}
-
-	@Override
-	public void enregistrer(Exemplaire exemplaire) {
-		save(exemplaire);
-	}
-
-	@Override
-	public void enregistrer(Oeuvre oeuvre) {
-		save(oeuvre);
-	}
-
-	@Override
-	public void enregistrer(Pret pret) {
-		save(pret);
-	}
-
-	@Override
-	public void mettreAJour(Pret pret) {
-		update(pret);
-	}
-
-	@Override
-	public void enregistrer(Reservation reservation) {
-		save(reservation);
-	}
-
-	@Override
-	public void supprimer(Reservation reservation) {
-		executer(session -> {
-			session.delete(reservation);
-			return null;
-		});
-	}
 }

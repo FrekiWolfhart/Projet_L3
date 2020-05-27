@@ -3,16 +3,18 @@ package controleur.implementation;
 import java.time.Period;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import controleur.DateService;
 import controleur.DureeCotisationService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 
+@Component("dureeCotisationService")
 public class DureeCotisationServiceImplement implements DureeCotisationService {
 
 	@Autowired
-	private PersistanceServiceLecture persistance;
+	private PersistanceServiceLecture lecture;
 
 	@Override
 	public Period getDureeCotisation() {
@@ -22,7 +24,7 @@ public class DureeCotisationServiceImplement implements DureeCotisationService {
 
 	@Override
 	public boolean estCotisationAJour(int adherentId) {
-		Adherent adherent = persistance.getAdherent(adherentId);
+		Adherent adherent = lecture.getAdherent(adherentId);
 		if (adherent == null) {
 			// TODO
 		}

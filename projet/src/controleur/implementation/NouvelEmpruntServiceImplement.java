@@ -1,25 +1,31 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import controleur.DateService;
 import controleur.DureeCotisationService;
 import controleur.DureePretService;
 import controleur.NouvelEmpruntService;
 import controleur.PersistanceServiceEcriture;
+import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.Pret;
 
+@Component("nouvelEmpruntService")
 public class NouvelEmpruntServiceImplement implements NouvelEmpruntService {
-	
+
 	@Autowired
 	private DureeCotisationService dureeCotisationService;
-	
+
 	@Autowired
-	private PersistanceServiceEcriture persistance;
-	
+	private PersistanceServiceEcriture ecriture;
+
+	@Autowired
+	private PersistanceServiceLecture lecture;
+
 	@Autowired
 	private DureePretService dureePretService;
 
@@ -28,14 +34,14 @@ public class NouvelEmpruntServiceImplement implements NouvelEmpruntService {
 		if (exemplaire.estPreté()) {
 //			throw new DejaPreteException(exemplaire, adherent); // TODO
 		}
-		
-		if(!dureeCotisationService.estCotisationAJour(adherent)) {
+
+		if (!dureeCotisationService.estCotisationAJour(adherent)) {
 			// TODO
 		}
-		
+
 		Pret pret = new Pret(adherent, exemplaire, DateService.getDateTime(), dureePretService.getDuree());
 
-		persistance.enregistrer(pret);
+		ecriture.enregistrer(pret);
 
 		return pret;
 	}
@@ -53,13 +59,13 @@ public class NouvelEmpruntServiceImplement implements NouvelEmpruntService {
 
 	@Override
 	public Pret emprunter(int idAdherent, String coteOeuvre, int numeroExemplaire) {
-		Adherent adherent = persistance.getAdherent(idAdherent);
+		Adherent adherent = lecture.getAdherent(idAdherent);
 
 		if (adherent == null) {
 			// TODO
 		}
 
-		Exemplaire exemplaire = persistance.getExemplaire(coteOeuvre, numeroExemplaire);
+		Exemplaire exemplaire = lecture.getExemplaire(coteOeuvre, numeroExemplaire);
 
 		if (exemplaire == null) {
 			// TODO
@@ -70,12 +76,12 @@ public class NouvelEmpruntServiceImplement implements NouvelEmpruntService {
 
 	@Override
 	public Pret emprunter(int idAdherent, String coteOeuvre) {
-		Adherent adherent = persistance.getAdherent(idAdherent);
+		Adherent adherent = lecture.getAdherent(idAdherent);
 		if (adherent == null) {
 			// TODO
 		}
 
-		Oeuvre oeuvre = persistance.getOeuvre(coteOeuvre);
+		Oeuvre oeuvre = lecture.getOeuvre(coteOeuvre);
 		if (oeuvre == null) {
 			// TODO
 		}

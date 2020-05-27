@@ -18,16 +18,18 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Pret;
 
+@Component("emailService")
 public class EmailServiceImplement implements EmailService {
 
 	@Autowired
-	private PersistanceServiceLecture persistance;
+	private PersistanceServiceLecture lecture;
 
 	@Override
 	@Scheduled(cron = "0 0 8 * * MON")
@@ -87,9 +89,10 @@ public class EmailServiceImplement implements EmailService {
 		}
 	}
 
+	// TODO : implémenter lecture.getPretsEnRetard() pour faire ça directement côté BDD
 	public Map<Adherent, List<Pret>> RecupererMapPretsEnRetard() {
 		Map<Adherent, List<Pret>> mapPretsRetardataires = new HashMap<>();
-		Collection<Adherent> adherents = persistance.getAdherents();
+		Collection<Adherent> adherents = lecture.getAdherents();
 		for (Adherent adherent : adherents) {
 			List<Pret> pretsEnRetard = new ArrayList<>();
 			for (Pret pret : adherent.getPrets()) {
