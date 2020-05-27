@@ -1,5 +1,6 @@
 package restful;
 
+import controleur.NouvelAdherentService;
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import controleur.implementation.PersistanceImplement;
@@ -21,7 +22,7 @@ public class AdherentController {
     private PersistanceServiceLecture persistance;
 
     @Autowired
-    private PersistanceServiceEcriture persistanceServiceEcriture;
+    private NouvelAdherentService nouvelAdherentService;
 
     @GetMapping("/Adherents")
     public Collection<Adherent> getAllAdherents(){
@@ -40,8 +41,8 @@ public class AdherentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveAdherent(@RequestBody Adherent adherent){
-        persistanceServiceEcriture.enregistrer(adherent);
+    public Adherent saveAdherent(@RequestBody String nom ,@RequestBody String prenom ,@RequestBody String email){
+        return nouvelAdherentService.ajouterAdherent(nom,prenom,email);
     }
 
 

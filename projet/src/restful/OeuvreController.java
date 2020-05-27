@@ -1,5 +1,6 @@
 package restful;
 
+import controleur.NouvelleOeuvreService;
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 @RestController
@@ -18,7 +20,7 @@ public class OeuvreController {
     private PersistanceServiceLecture persistance;
 
     @Autowired
-    private PersistanceServiceEcriture persistanceServiceEcriture;
+    private NouvelleOeuvreService nouvelleOeuvreService;
 
     @GetMapping("/Oeuvres")
     public Collection<Oeuvre> getAllOeuvres(){
@@ -37,8 +39,14 @@ public class OeuvreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveOeuvre(@RequestBody Oeuvre oeuvre){
-        persistanceServiceEcriture.enregistrer(oeuvre);
+    public void saveOeuvre(@RequestBody String cote ,@RequestBody String titre,@RequestBody String dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
+        nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveOeuvre(@RequestBody String cote,@RequestBody String titre,@RequestBody LocalDate dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
+        nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
     }
 
 }

@@ -2,7 +2,9 @@ package restful;
 
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
+import controleur.ReservationService;
 import modele.Adherent;
+import modele.Oeuvre;
 import modele.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,7 +20,7 @@ public class ReservationController {
     private PersistanceServiceLecture persistance;
 
     @Autowired
-    private PersistanceServiceEcriture persistanceServiceEcriture;
+    private ReservationService reservationService;
 
     @GetMapping("/Reservations")
     public Collection<Reservation> getAllReservations(){
@@ -27,8 +29,14 @@ public class ReservationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveReservation(@RequestBody Reservation reservation){
-        persistanceServiceEcriture.enregistrer(reservation);
+    public Reservation saveReservationByAdherentId(@RequestBody int idAdhrent ,@RequestBody String coteOeuvre){
+        return reservationService.reserver(idAdhrent,coteOeuvre);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Reservation saveReservationByAdherent(@RequestBody Adherent adhrent ,@RequestBody Oeuvre coteOeuvre){
+       return reservationService.reserver(adhrent,coteOeuvre);
     }
 
 }

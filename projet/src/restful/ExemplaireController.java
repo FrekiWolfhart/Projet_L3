@@ -1,9 +1,11 @@
 package restful;
 
+import controleur.NouvelExemplaireService;
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Exemplaire;
+import modele.Oeuvre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ public class ExemplaireController {
     private PersistanceServiceLecture persistance;
 
     @Autowired
-    private PersistanceServiceEcriture persistanceServiceEcriture;
+    private NouvelExemplaireService nouvelExemplaireService;
 
     @GetMapping("/Exemplaires")
     public Collection<Exemplaire> getAllExemplaires(){
@@ -33,7 +35,13 @@ public class ExemplaireController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveExemplaire(@RequestBody Exemplaire exemplaire){
-        persistanceServiceEcriture.enregistrer(exemplaire);
+    public Exemplaire saveExemplaireByCote(@RequestBody String cote){
+        return nouvelExemplaireService.ajouterExemplaire(cote);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Exemplaire saveExemplaireByOeuvre(@RequestBody Oeuvre oeuvre){
+       return nouvelExemplaireService.ajouterExemplaire(oeuvre);
     }
 }
