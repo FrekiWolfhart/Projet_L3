@@ -7,10 +7,8 @@ import modele.Adherent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,6 +19,9 @@ public class AdherentController {
 
     @Autowired
     private PersistanceServiceLecture persistance;
+
+    @Autowired
+    private PersistanceServiceEcriture persistanceServiceEcriture;
 
     @GetMapping("/Adherents")
     public Collection<Adherent> getAllAdherents(){
@@ -35,6 +36,12 @@ public class AdherentController {
     @GetMapping("/Adherents/{email}")
     public Collection<Adherent> getAllAdherents(@PathVariable String email){
         return persistance.getAdherents(email);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveAdherent(@RequestBody Adherent adherent){
+        persistanceServiceEcriture.enregistrer(adherent);
     }
 
 

@@ -1,12 +1,13 @@
 package restful;
 
+import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
+import modele.Adherent;
 import modele.Exemplaire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -17,6 +18,9 @@ public class ExemplaireController {
     @Autowired
     private PersistanceServiceLecture persistance;
 
+    @Autowired
+    private PersistanceServiceEcriture persistanceServiceEcriture;
+
     @GetMapping("/Exemplaires")
     public Collection<Exemplaire> getAllExemplaires(){
         return persistance.getExemplaires();
@@ -25,5 +29,11 @@ public class ExemplaireController {
     @GetMapping("/Exemplaires/{cote}/{id}")
     public Exemplaire getExemplairesByCoteAndId(@PathVariable String cote, @PathVariable int id){
         return persistance.getExemplaire(cote,id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveExemplaire(@RequestBody Exemplaire exemplaire){
+        persistanceServiceEcriture.enregistrer(exemplaire);
     }
 }
