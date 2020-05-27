@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.DateService;
 import controleur.NouvelleOeuvreService;
@@ -12,7 +12,7 @@ import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import modele.Oeuvre;
 
-@Component("nouvelleOeuvreService")
+@Service("nouvelleOeuvreService")
 public class NouvelleOeuvreServiceImplement implements NouvelleOeuvreService {
 
 	@Autowired

@@ -1,6 +1,6 @@
 package controleur.implementation;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import controleur.PersistanceServiceEcriture;
 import modele.Adherent;
@@ -9,7 +9,7 @@ import modele.Oeuvre;
 import modele.Pret;
 import modele.Reservation;
 
-@Component("ecriture")
+@Repository("ecriture")
 public class EcritureImplement extends AbstractPersistance implements PersistanceServiceEcriture {
 
 	private void save(Object o) {

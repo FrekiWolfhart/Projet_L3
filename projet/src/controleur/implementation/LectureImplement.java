@@ -10,7 +10,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.cfg.NotYetImplementedException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
@@ -20,7 +20,7 @@ import modele.Pret;
 import modele.Reservation;
 import modele.primaryKeys.ExemplairePK;
 
-@Component("lecture")
+@Repository("lecture")
 public class LectureImplement extends AbstractPersistance implements PersistanceServiceLecture {
 
 	private <E> Collection<E> getAll(Class<E> classe) {

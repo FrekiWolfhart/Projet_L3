@@ -3,14 +3,14 @@ package controleur.implementation;
 import java.time.Period;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.DateService;
 import controleur.DureeCotisationService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 
-@Component("dureeCotisationService")
+@Service("dureeCotisationService")
 public class DureeCotisationServiceImplement implements DureeCotisationService {
 
 	@Autowired

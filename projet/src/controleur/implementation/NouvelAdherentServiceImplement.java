@@ -1,13 +1,13 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.NouvelAdherentService;
 import controleur.PersistanceServiceEcriture;
 import modele.Adherent;
 
-@Component("nouvelAdherentService")
+@Service("nouvelAdherentService")
 public class NouvelAdherentServiceImplement implements NouvelAdherentService {
 
 	@Autowired

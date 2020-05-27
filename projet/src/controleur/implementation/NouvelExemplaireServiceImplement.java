@@ -1,7 +1,7 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.DateService;
 import controleur.NouvelExemplaireService;
@@ -11,7 +11,7 @@ import modele.Exemplaire;
 import modele.Oeuvre;
 import modele.primaryKeys.ExemplairePK;
 
-@Component("nouvelExemplaireService")
+@Service("nouvelExemplaireService")
 public class NouvelExemplaireServiceImplement implements NouvelExemplaireService {
 
 	@Autowired

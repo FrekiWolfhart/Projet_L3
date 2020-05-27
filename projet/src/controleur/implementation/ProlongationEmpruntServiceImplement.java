@@ -1,7 +1,7 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
@@ -9,7 +9,7 @@ import controleur.ProlongationEmpruntService;
 import modele.Exemplaire;
 import modele.Pret;
 
-@Component("prolongationEmpruntService")
+@Service("prolongationEmpruntService")
 public class ProlongationEmpruntServiceImplement implements ProlongationEmpruntService {
 
 	@Autowired

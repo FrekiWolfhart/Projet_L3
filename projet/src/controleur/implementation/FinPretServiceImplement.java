@@ -1,7 +1,7 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.DateService;
 import controleur.FinPretService;
@@ -10,7 +10,7 @@ import controleur.PersistanceServiceLecture;
 import modele.Exemplaire;
 import modele.Pret;
 
-@Component("finPretService")
+@Service("finPretService")
 public class FinPretServiceImplement implements FinPretService {
 
 	@Autowired

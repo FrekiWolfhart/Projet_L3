@@ -18,14 +18,14 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.EmailService;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 import modele.Pret;
 
-@Component("emailService")
+@Service("emailService")
 public class EmailServiceImplement implements EmailService {
 
 	@Autowired

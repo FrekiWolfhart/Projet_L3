@@ -1,7 +1,6 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import controleur.CotisationService;
 import controleur.DateService;
@@ -9,7 +8,6 @@ import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 
-@Component("cotisationService")
 public class CotisationServiceImplement implements CotisationService {
 
 	@Autowired

@@ -1,7 +1,7 @@
 package controleur.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import controleur.DateService;
 import controleur.PersistanceServiceEcriture;
@@ -13,7 +13,7 @@ import modele.Oeuvre;
 import modele.Reservation;
 import modele.primaryKeys.ReservationPK;
 
-@Component("reservationService")
+@Service("reservationService")
 public class ReservationServiceImplement implements ReservationService {
 
 	@Autowired
