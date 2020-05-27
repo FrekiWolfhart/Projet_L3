@@ -32,6 +32,12 @@ public class AdherentController {
         return persistance.getAdherent(id);
     }
 
+    @GetMapping("/Adherents/{email}")
+    public Collection<Adherent> getAllAdherents(@PathVariable String email){
+        return persistance.getAdherents(email);
+    }
+
+
 
     public static void main (String[] args){
         SpringApplication.run(AdherentController.class, args);

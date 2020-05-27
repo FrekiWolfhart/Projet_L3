@@ -21,8 +21,11 @@ public class PretController {
         return persistance.getPrets();
     }
 
-    @GetMapping("/Prets/{numero}")
-    public Pret getPretByNumero(@PathVariable int numero){
-        return persistance.getPret(numero);
+    @GetMapping("/Retards")
+    public Collection<Pret> getPretsEnRetards(){
+        return persistance.getPretsEnRetard();
     }
+
+
+
 }
