@@ -39,14 +39,14 @@ public class OeuvreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveOeuvre(@RequestBody String cote ,@RequestBody String titre,@RequestBody String dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
-        nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
+    public Oeuvre saveOeuvre(@RequestBody String cote ,@RequestBody String titre,@RequestBody String dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
+        return nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveOeuvre(@RequestBody String cote,@RequestBody String titre,@RequestBody LocalDate dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
-        nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
+    public Oeuvre saveOeuvre(@RequestBody String cote,@RequestBody String titre,@RequestBody LocalDate dateSortie,@RequestBody Collection<String> auteurs,@RequestBody Collection<String> tags ){
+        return nouvelleOeuvreService.ajouterOeuvre(cote,titre,dateSortie,auteurs,tags);
     }
 
 }
