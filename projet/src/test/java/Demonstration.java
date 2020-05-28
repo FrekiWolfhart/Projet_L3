@@ -12,7 +12,7 @@ import controleur.PersistanceServiceLecture;
 
 @ComponentScan("controleur.implementation")
 @SpringBootApplication
-public class Video { // pas vraiment un test mais une démonstration
+public class Demonstration { // pas vraiment un test mais une démonstration
 
 	@Autowired
 	private NouvelAdherentService nouvelAdherentService;
@@ -20,7 +20,7 @@ public class Video { // pas vraiment un test mais une démonstration
 	private PersistanceServiceLecture lecture;
 
 	public static void main(String[] args) {
-		SpringApplication.run(Video.class, args);
+		SpringApplication.run(Demonstration.class, args);
 	}
 
 	@PostConstruct
