@@ -7,7 +7,7 @@ import controleur.DateService;
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
 import controleur.ReservationService;
-import controleur.StreamOfNullable;
+import controleur.MyCollectionUtils;
 import modele.Adherent;
 import modele.Oeuvre;
 import modele.Reservation;
@@ -41,7 +41,7 @@ public class ReservationServiceImplement implements ReservationService {
 
 	@Override
 	public Reservation reserver(Adherent adherent, Oeuvre oeuvre) {
-		Reservation reservation = StreamOfNullable.stream(adherent.getReservations()).filter(reserv -> reserv.getOeuvre().equals(oeuvre)).findAny()
+		Reservation reservation = MyCollectionUtils.stream(adherent.getReservations()).filter(reserv -> reserv.getOeuvre().equals(oeuvre)).findAny()
 				.orElse(null); // TODO : faire ça proprement coté BDD
 
 		if (reservation != null) { // si cet adhérent a déjà réservé cette oeuvre

@@ -3,7 +3,8 @@ package restful;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,8 @@ import controleur.PersistanceServiceLecture;
 import modele.Adherent;
 
 @RestController
-@EnableAutoConfiguration
+@SpringBootApplication
+@ComponentScan("controleur.implementation")
 public class AdherentController {
 
 	@Autowired
@@ -26,22 +28,22 @@ public class AdherentController {
 	@Autowired
 	private NouvelAdherentService nouvelAdherentService;
 
-	@GetMapping("/Adherents")
+	@GetMapping("/adherents")
 	public Collection<Adherent> getAllAdherents() {
 		return lecture.getAdherents();
 	}
 
-	@GetMapping("/Adherents/{id}")
+	@GetMapping("/adherents/{id}")
 	public Adherent getAdherentById(@PathVariable int id) {
 		return lecture.getAdherent(id);
 	}
 
-	@GetMapping("/Adherents/{email}")
+	@GetMapping("/adherents/byEmail/{email}")
 	public Collection<Adherent> getAllAdherents(@PathVariable String email) {
 		return lecture.getAdherents(email);
 	}
 
-	@PostMapping
+	@PostMapping("enregistrerAdherent")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Adherent saveAdherent(@RequestBody String nom, @RequestBody String prenom, @RequestBody String email) {
 		return nouvelAdherentService.ajouterAdherent(nom, prenom, email);

@@ -3,7 +3,8 @@ package restful;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import controleur.NouvelExemplaireService;
 import controleur.PersistanceServiceLecture;
 import modele.Exemplaire;
-import modele.Oeuvre;
 
 @RestController
-@EnableAutoConfiguration
+@SpringBootApplication
+@ComponentScan("controleur.implementation")
 public class ExemplaireController {
 
 	@Autowired
@@ -27,25 +28,30 @@ public class ExemplaireController {
 	@Autowired
 	private NouvelExemplaireService nouvelExemplaireService;
 
-	@GetMapping("/Exemplaires")
+	@GetMapping("/exemplaires")
 	public Collection<Exemplaire> getAllExemplaires() {
 		return lecture.getExemplaires();
 	}
 
-	@GetMapping("/Exemplaires/{cote}/{id}")
+	@GetMapping("/exemplaires/{cote")
+	public Collection<Exemplaire> getExemplairesByCote(@PathVariable String cote) {
+		return lecture.getOeuvre(cote).getExemplaires();
+	}
+
+	@GetMapping("/exemplaires/{cote}/{id}")
 	public Exemplaire getExemplairesByCoteAndId(@PathVariable String cote, @PathVariable int id) {
 		return lecture.getExemplaire(cote, id);
 	}
 
-	@PostMapping
+	@PostMapping("/ajouterExemplaire")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Exemplaire saveExemplaireByCote(@RequestBody String cote) {
 		return nouvelExemplaireService.ajouterExemplaire(cote);
 	}
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Exemplaire saveExemplaireByOeuvre(@RequestBody Oeuvre oeuvre) {
-		return nouvelExemplaireService.ajouterExemplaire(oeuvre);
-	}
+//	@PostMapping("/ajouterExemplaire")
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public Exemplaire saveExemplaireByOeuvre(@RequestBody Oeuvre oeuvre) {
+//		return nouvelExemplaireService.ajouterExemplaire(oeuvre);
+//	}
 }

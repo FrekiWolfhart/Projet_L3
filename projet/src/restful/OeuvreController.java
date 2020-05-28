@@ -1,10 +1,10 @@
 package restful;
 
-import java.time.LocalDate;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,8 @@ import controleur.PersistanceServiceLecture;
 import modele.Oeuvre;
 
 @RestController
-@EnableAutoConfiguration
+@SpringBootApplication
+@ComponentScan("controleur.implementation")
 public class OeuvreController {
 	@Autowired
 	private PersistanceServiceLecture lecture;
@@ -26,33 +27,25 @@ public class OeuvreController {
 	@Autowired
 	private NouvelleOeuvreService nouvelleOeuvreService;
 
-	@GetMapping("/Oeuvres")
+	@GetMapping("/oeuvres")
 	public Collection<Oeuvre> getAllOeuvres() {
 		return lecture.getOeuvres();
 	}
 
-	@GetMapping("/Oeuvres/{cote}")
+	@GetMapping("/oeuvres/{cote}")
 	public Oeuvre getOeuvreByCote(@PathVariable String cote) {
 		return lecture.getOeuvre(cote);
 	}
 
-	@GetMapping("/Oeuvres/{titre}")
+	@GetMapping("/oeuvres/byTitle/{titre}")
 	public Collection<Oeuvre> getOeuvreByTitle(@PathVariable String titre) {
 		return lecture.getOeuvres(titre);
 	}
 
-	@PostMapping
+	@PostMapping("ajouterOeuvre")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Oeuvre saveOeuvre(@RequestBody String cote, @RequestBody String titre, @RequestBody String dateSortie, @RequestBody Collection<String> auteurs,
 			@RequestBody Collection<String> tags) {
 		return nouvelleOeuvreService.ajouterOeuvre(cote, titre, dateSortie, auteurs, tags);
 	}
-
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Oeuvre saveOeuvre(@RequestBody String cote, @RequestBody String titre, @RequestBody LocalDate dateSortie, @RequestBody Collection<String> auteurs,
-			@RequestBody Collection<String> tags) {
-		return nouvelleOeuvreService.ajouterOeuvre(cote, titre, dateSortie, auteurs, tags);
-	}
-
 }

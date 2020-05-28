@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -52,9 +54,11 @@ public class Adherent implements Serializable {
 	@Column(name = "date_paiement", nullable = true)
 	LocalDateTime datePaiement;
 
+	@JsonIgnore // TODO : supprimer les @JsonIgnore et essayer de faire que Spring initialise les collections
 	@OneToMany(mappedBy = "adherent")
 	Collection<Pret> prets;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.adherent")
 	Collection<Reservation> reservations;
 

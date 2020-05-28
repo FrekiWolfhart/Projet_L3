@@ -24,6 +24,8 @@ public class PersistanceTest {
 
 	private PersistanceServiceLecture lecture = new LectureImplement();
 
+	
+	// TODO : finir et passer par les classes métier (les services) dédiés plutôt que directement par persistance
 	@Test
 	public void test() {
 		verifierQueLestablesSontVides();
@@ -33,8 +35,7 @@ public class PersistanceTest {
 		String auteur2 = "Auteur2";
 		String tag1 = "tag1";
 		String tag2 = "tag2";
-		Oeuvre oeuvre1 = new Oeuvre("cote1", "Titre1", DateService.getDate("2007-12-03"), Arrays.asList(auteur1, auteur2), Arrays.asList(tag1, tag2), null,
-				null);
+		Oeuvre oeuvre1 = new Oeuvre("cote1", "Titre1", DateService.getDate("2007-12-03"), Arrays.asList(auteur1, auteur2), Arrays.asList(tag1, tag2), null, null);
 
 		ecriture.enregistrer(oeuvre1);
 		Collection<Oeuvre> oeuvresDeAuteur1 = lecture.getAuteur(auteur1);

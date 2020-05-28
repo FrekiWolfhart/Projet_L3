@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -45,6 +47,7 @@ public class Exemplaire implements Serializable {
 	/**
 	 * contient également le pretactuel
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "exemplaire")
 	Collection<Pret> historiquePrets;
 

@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import controleur.StreamOfNullable;
+import controleur.MyCollectionUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -49,8 +49,8 @@ public class Oeuvre implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "auteur", joinColumns = @JoinColumn(name = "cote"))
 	@Column(name = "nom")
-	Collection<String> auteurs; 
-	
+	Collection<String> auteurs;
+
 	@ElementCollection
 	@CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "cote"))
 	@Column(name = "mot")
@@ -69,6 +69,8 @@ public class Oeuvre implements Serializable {
 		return getExemplairesLibres().findAny().orElse(null);
 	}
 
+	// TODO : faire tout ça direcement côté BDD
+	
 	public Stream<Exemplaire> getExemplairesLibres() {
 		return getExemplairesStream().filter(Exemplaire::estLibre);
 	}
@@ -78,15 +80,15 @@ public class Oeuvre implements Serializable {
 	}
 
 	public Stream<Exemplaire> getExemplairesStream() {
-		return StreamOfNullable.stream(getExemplaires());
+		return MyCollectionUtils.stream(getExemplaires());
 	}
 
 	public Stream<Reservation> getReservationStream() {
-		return StreamOfNullable.stream(getReservations());
+		return MyCollectionUtils.stream(getReservations());
 	}
 
 	public Stream<Pret> getPrets() {
-		return getExemplairesStream().map(Exemplaire::getHistoriquePrets).flatMap(StreamOfNullable::stream);
+		return getExemplairesStream().map(Exemplaire::getHistoriquePrets).flatMap(MyCollectionUtils::stream);
 	}
 
 	public long getNbExemplairesPretes() {
