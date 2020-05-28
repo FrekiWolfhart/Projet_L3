@@ -26,11 +26,11 @@ public class Video { // pas vraiment un test mais une démonstration
 	@PostConstruct
 	public void init() {
 		afficherAdherents();
-		nouvelAdherentService.ajouterAdherent("Nari", "Florian", "florian.nari@etu.univ-amu.fr");
+		nouvelAdherentService.ajouterAdherent("xxx", "aaa", "ooo@gmail.com");
 		afficherAdherents();
-		nouvelAdherentService.ajouterAdherent("Molina", "Kevin", "kevin.molina@etu.univ-amu.fr");
+		nouvelAdherentService.ajouterAdherent("yyy", "bbb", "ppp@gmail.com");
 		afficherAdherents();
-		nouvelAdherentService.ajouterAdherent("Molina2", "Kevin2", "kevin.molina@etu.univ-amu.fr");
+		nouvelAdherentService.ajouterAdherent("zzz", "ccc", "ppp@gmail.com");
 		afficherAdherents();
 	}
 
