@@ -46,7 +46,7 @@ public class EmailServiceImplement implements EmailService {
 
 	@Override
 	public void envoyerEmailRetardataire(Adherent adherent, Collection<Pret> pretsEnRetard) {
-		if (pretsEnRetard != null) {
+		if (pretsEnRetard != null) { // TODO : utiliser une StringBuilder
 			String email = "Cher(e) " + adherent.getNom() + " " + adherent.getPrenom()
 					+ "\n Nous vous envoyons ce mail car il se trouve que vous avez oublié de nous retourner certains livres empruntés à notre bibliothèque."
 					+ "\n Pour rappel, la durée d'emprunt est de un mois. Voici la liste des livres concernés :" + "\n";

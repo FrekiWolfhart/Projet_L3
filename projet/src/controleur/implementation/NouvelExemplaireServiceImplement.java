@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import controleur.DateService;
+import controleur.MyCollectionUtils;
 import controleur.NouvelExemplaireService;
 import controleur.PersistanceServiceEcriture;
 import controleur.PersistanceServiceLecture;
@@ -24,7 +25,7 @@ public class NouvelExemplaireServiceImplement implements NouvelExemplaireService
 	public Exemplaire ajouterExemplaire(String coteOeuvre) {
 		Oeuvre oeuvre = lecture.getOeuvre(coteOeuvre);
 		if (oeuvre == null) {
-
+			// TODO
 		}
 		return ajouterExemplaire(oeuvre);
 	}
@@ -34,7 +35,7 @@ public class NouvelExemplaireServiceImplement implements NouvelExemplaireService
 		Exemplaire exemplaire;
 		String cote = oeuvre.getCote().intern();
 		synchronized (cote) {
-			int numero = oeuvre.getExemplaires().stream().mapToInt(Exemplaire::getNumero).max().orElse(0) + 1;
+			int numero = MyCollectionUtils.stream(oeuvre.getExemplaires()).mapToInt(Exemplaire::getNumero).max().orElse(0) + 1;
 			exemplaire = new Exemplaire().setId(new ExemplairePK(oeuvre, numero)).setDateAchat(DateService.getDateTime());
 			ecriture.enregistrer(exemplaire);
 		}

@@ -14,9 +14,9 @@ import modele.primaryKeys.ReservationPK;
 
 enum SessionUtils {
 	instance;
-	
+
 	private final SessionFactory sessionFactory;
-	
+
 	private SessionUtils() {
 		Configuration config = new Configuration();
 
@@ -25,13 +25,12 @@ enum SessionUtils {
 		config.addAnnotatedClass(ExemplairePK.class).addAnnotatedClass(ReservationPK.class).addAnnotatedClass(Adherent.class)
 				.addAnnotatedClass(Exemplaire.class).addAnnotatedClass(Oeuvre.class).addAnnotatedClass(Pret.class).addAnnotatedClass(Reservation.class);
 		// TODO : passer par hibernate.cfg.xml pour spécifier les classes annotées
-		
-		
+
 		config.configure("config/hibernate.cfg.xml");
 
 		this.sessionFactory = config.buildSessionFactory();
 	}
-	
+
 	Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}

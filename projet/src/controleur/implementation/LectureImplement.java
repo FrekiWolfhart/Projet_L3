@@ -24,6 +24,7 @@ import modele.primaryKeys.ExemplairePK;
 public class LectureImplement extends AbstractPersistance implements PersistanceServiceLecture {
 
 	private <E> Collection<E> getAll(Class<E> classe) {
+//		return executer(session -> session.createCriteria(classe).list());
 		return executer(session -> {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<E> query = builder.createQuery(classe);

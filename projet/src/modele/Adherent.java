@@ -54,7 +54,7 @@ public class Adherent implements Serializable {
 	@Column(name = "date_paiement", nullable = true)
 	LocalDateTime datePaiement;
 
-	@JsonIgnore // TODO : supprimer les @JsonIgnore et essayer de faire que Spring initialise les collections
+	@JsonIgnore // TODO : supprimer les @JsonIgnore et essayer de faire que l'API initialise les collections
 	@OneToMany(mappedBy = "adherent")
 	Collection<Pret> prets;
 
